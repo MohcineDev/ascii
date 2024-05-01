@@ -49,23 +49,65 @@ func main() {
 }
 
 func lines() {
-	file, _ := os.ReadFile("standard.txt")
+	arg1 := os.Args[1:]
+
+	if len(arg1) < 1 {
+		fmt.Println("Error please enter an input")
+		return
+	}
+
+	file, err := os.ReadFile("standard.txt")
+	if err != nil {
+		fmt.Println("Error standard.txt not found")
+		return
+	}
 	line := strings.Split(string(file), "\n")
-	arg1 := os.Args[1]
 
-	var newarr []string
-	for i := 0; i < 9; i++ {
-		for _, letter := range arg1 {
-			s := (int(letter)-32)*9 + 1
-			r := line[s+i]
-			newarr = append(newarr, r)
+	words := []string{}
 
+	// /split the argument with line break
+	if arg1[0] != "\\n" {
+		words = strings.Split(arg1[0], "\\n")
+	} else {
+		fmt.Println("")
+	}
+	var result []string
+	isLine := false
+
+	/////
+	if len(arg1[0]) == 0 {
+		return
+	}
+
+
+	for a := 0; a < len(words); a++ { 
+		for i := 1; i < 9; i++ {
+			isLine = false
+
+			for _, char := range words[a] {
+				s := (int(char) - 32) * 9
+
+				if s > 856 {
+
+					fmt.Println("Error : Your input is not found.!!")
+					return
+				}
+				asciiLine := line[s+i]
+
+				result = append(result, asciiLine)
+				isLine = true
+			}
+			if isLine {
+				result = append(result, "\n")
+			}
 		}
-		newarr = append(newarr, "\n")
+		if len(words[a]) == 0 {
+			result = append(result, "\n")
+		}
 
 	}
-	for i := 0; i < len(newarr); i++ {
-		
-		fmt.Print(newarr[i])
+	/////print result
+	for i := 0; i < len(result); i++ {
+		fmt.Print(result[i])
 	}
 }
