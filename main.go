@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"example/handleArgs"
 )
 
 func main() {
-	arg1 := os.Args[1:]
-
-	if len(arg1) < 1 {
-		fmt.Println("Error please enter an input")
+	argsError, input := handleArgs.CheckArgs()
+	if argsError != nil {
+		fmt.Println(argsError)
 		return
 	}
-	/// hanlde file extension and args length
 
-	// file, err := os.ReadFile("standard.txt")
-	file, err := os.ReadFile("thinkertoy.txt")
+	/// hanlde file extension
+
+	file, err := os.ReadFile("standard.txt")
 	if err != nil {
 		fmt.Println("Error standard.txt not found")
 		return
@@ -26,13 +27,13 @@ func main() {
 	words := []string{}
 
 	// /split the first argument with line break
-	if arg1[0] != "\\n" {
-		words = strings.Split(arg1[0], "\\n")
-	} 
+	if input != "\\n" {
+		words = strings.Split(input, "\\n")
+	}
 	var result []string
 	isLine := false
 
-	if len(arg1[0]) == 0 {
+	if len(input) == 0 {
 		return
 	}
 	for a := 0; a < len(words); a++ {
@@ -48,7 +49,8 @@ func main() {
 					return
 				}
 				asciiLine := line[s+i]
-				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+				///for the third file
+				// asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 				result = append(result, asciiLine)
 				isLine = true
 			}
@@ -60,7 +62,6 @@ func main() {
 		if len(words[a]) == 0 {
 			result = append(result, "\n")
 		}
-
 	}
 
 	for i := 0; i < len(result); i++ {
