@@ -1,11 +1,10 @@
 package main
 
 import (
+	"example/handleArgs"
 	"fmt"
 	"os"
 	"strings"
-
-	"example/handleArgs"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 
 	/// hanlde file extension
 
-	file, err := os.ReadFile("standard.txt")
+	file, err := os.ReadFile("../standard.txt")
 	if err != nil {
 		fmt.Println("Error standard.txt not found")
 		return
@@ -41,13 +40,12 @@ func main() {
 			isLine = false
 
 			for _, char := range words[a] {
-				s := (int(char) - 32) * 9
-
-				if s > 856 {
-
-					fmt.Println("Error : Your input is not found.!!")
+				if int(char) < 32 || int(char) > 126 {
+					fmt.Println("Error : char", char, " is not found.!!")
 					return
 				}
+				s := (int(char) - 32) * 9
+
 				asciiLine := line[s+i]
 				///for the third file
 				// asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
