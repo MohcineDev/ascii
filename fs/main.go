@@ -2,32 +2,15 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
-
-	"example/handleArgs"
 )
 
 func main() {
-	argsError, input := handleArgs.CheckArgs()
-	if argsError != nil {
-		fmt.Println(argsError)
-		return
-	}
-
+	lines, input := getLines()
 	/// hanlde file extension
 
-	file, err := os.ReadFile("../standard.txt")
-	if err != nil {
-		fmt.Println("Error standard.txt not found")
-		return
-	}
-	line := strings.Split(string(file), "\n")
-
-	words := []string{}
-
 	// /split the first argument with line break
-	words = strings.Split(input, "\\n")
+	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
 
 	var result []string
@@ -42,14 +25,14 @@ func main() {
 
 			for _, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
-					fmt.Println("Error : char", char, " is not found.!!")
+					fmt.Println("Error : char '", string(char), "' not found!!")
 					return
 				}
 				s := (int(char) - 32) * 9
 
-				asciiLine := line[s+i]
+				asciiLine := lines[s+i]
 				///for the third file
-				// asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 				result = append(result, asciiLine)
 				isLine = true
 			}
@@ -64,7 +47,7 @@ func main() {
 		}
 
 	}
-
+	////Print result
 	for i := 0; i < len(result); i++ {
 		fmt.Print(result[i])
 	}
