@@ -9,7 +9,9 @@ import (
 )
 
 func getLines() ([]string, string) {
-	argsError, args := handleArgs.CheckArgs()
+	myargs := os.Args[1:]
+
+	argsError, args := handleArgs.CheckArgs(myargs)
 	if argsError != nil {
 		fmt.Println(argsError)
 		os.Exit(1)

@@ -1,15 +1,14 @@
 package main
 
 import (
+	"example/handleArgs"
 	"fmt"
 	"os"
 	"strings"
-
-	"example/handleArgs"
 )
 
 func main() {
-	argsError, input := handleArgs.CheckArgs()
+	argsError, input := handleArgs.CheckArgs(os.Args[1:])
 	if argsError != nil {
 		fmt.Println(argsError)
 		return
@@ -24,10 +23,8 @@ func main() {
 	}
 	line := strings.Split(string(file), "\n")
 
-	words := []string{}
-
 	// /split the first argument with line break
-	words = strings.Split(input[0], "\\n")
+	words := strings.Split(input[0], "\\n")
 	newLineCount := strings.Count(input[0], "\\n")
 
 	var result []string
