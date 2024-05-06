@@ -4,39 +4,45 @@ import (
 	"testing"
 )
 
-///test with any args
+// /test with any args
 func TestCheckArgsNoArg(t *testing.T) {
 	myArgs := []string{}
-	err, msg := CheckArgs(myArgs)
+	err, _ := CheckArgs(myArgs)
 
 	if err != nil {
-		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
 	}
 }
-///test with one arg
+
+// /test with one arg
 func TestCheckArgsOneArg(t *testing.T) {
 	myArgs := []string{""}
-	err, msg := CheckArgs(myArgs)
+	err, _ := CheckArgs(myArgs)
 
 	if err != nil {
-		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+
+		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
+
 	}
 }
-///test with two args
+
+// /test with two args
 func TestCheckArgsTwoArgs(t *testing.T) {
-	myArgs := []string{}
-	err, msg := CheckArgs(myArgs)
+	myArgs := []string{"de", "ddf"}
+	err, _ := CheckArgs(myArgs)
 
 	if err != nil {
-		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
 	}
 }
-///test with out more than two args
+
+// /test with out more than two args
 func TestCheckArgsMoreThanTwoArgs(t *testing.T) {
-	myArgs := []string{}
-	err, msg := CheckArgs(myArgs)
+	myArgs := []string{"zz", "daz", "d"}
+	err, _ := CheckArgs(myArgs)
 
 	if err != nil {
-		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
+
 	}
 }

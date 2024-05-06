@@ -2,35 +2,35 @@ package handleArgs
 
 import (
 	"errors"
-	"os"
 	"strings"
 )
 
-func CheckArgs() (error, []string) {
-	myargs := os.Args[1:]
-
-	if len(myargs) < 1 {
+func CheckArgs(myArgs []string) (error, []string) {
+	if len(myArgs) < 1 {
 		return usageMessage(), []string{}
-	} else if len(myargs) > 2 {
+	} else if len(myArgs) > 2 {
 		return usageMessage(), []string{}
 	}
-	if len(myargs) == 2 {
 
-		Banner := myargs[1]
+	//// fs project
+
+	if len(myArgs) == 2 {
+
+		Banner := myArgs[1]
 
 		if strings.Contains(Banner, ".") {
 			if Banner == "standard.txt" || Banner == "standard" {
-				return nil, []string{myargs[0], "standard"}
+				return nil, []string{myArgs[0], "standard"}
 			} else if Banner == "shadow.txt" || Banner == "shadow" {
-				return nil, []string{myargs[0], "shadow"}
+				return nil, []string{myArgs[0], "shadow"}
 			} else if Banner == "thinkertoy.txt" || Banner == "thinkertoy" {
-				return nil, []string{myargs[0], "thinkertoy"}
+				return nil, []string{myArgs[0], "thinkertoy"}
 			} else if Banner == "mine.txt" || Banner == "mine" {
-				return nil, []string{myargs[0], "mine"}
+				return nil, []string{myArgs[0], "mine"}
 			}
 		}
 	}
-	return nil, myargs
+	return nil, myArgs
 }
 
 func usageMessage() error {
