@@ -1,16 +1,41 @@
 package handleArgs
 
 import (
-	"fmt"
-	"os"
 	"testing"
 )
 
-func TestCheckArgs(t *testing.T) {
-	os.Args = append(os.Args, "sd")
-	os.Args = append(os.Args, "standard")
-	fmt.Println(os.Args)
-	msg, err := CheckArgs()
+///test with any args
+func TestCheckArgsNoArg(t *testing.T) {
+	myArgs := []string{}
+	err, msg := CheckArgs(myArgs)
+
+	if err != nil {
+		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+	}
+}
+///test with one arg
+func TestCheckArgsOneArg(t *testing.T) {
+	myArgs := []string{""}
+	err, msg := CheckArgs(myArgs)
+
+	if err != nil {
+		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+	}
+}
+///test with two args
+func TestCheckArgsTwoArgs(t *testing.T) {
+	myArgs := []string{}
+	err, msg := CheckArgs(myArgs)
+
+	if err != nil {
+		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
+	}
+}
+///test with out more than two args
+func TestCheckArgsMoreThanTwoArgs(t *testing.T) {
+	myArgs := []string{}
+	err, msg := CheckArgs(myArgs)
+
 	if err != nil {
 		t.Fatalf(`CheckArgs() = %q, %v, want "", error`, msg, err)
 	}
