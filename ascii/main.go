@@ -27,13 +27,13 @@ func main() {
 	words := []string{}
 
 	// /split the first argument with line break
-	words = strings.Split(input, "\\n")
-	newLineCount := strings.Count(input, "\\n")
+	words = strings.Split(input[0], "\\n")
+	newLineCount := strings.Count(input[0], "\\n")
 
 	var result []string
 	isLine := false
 	count := 0
-	if len(input) == 0 {
+	if len(input[0]) == 0 {
 		return
 	}
 	for a := 0; a < len(words); a++ {
