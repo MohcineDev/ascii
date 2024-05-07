@@ -42,12 +42,11 @@ func main() {
 		}
 
 		if count < newLineCount && words[a] == "" {
-			fmt.Println("eeeeeeee", words[a])
 			result = append(result, "\n")
 			count++
 		}
 
-	} 
+	}
 
 	////Print result
 	for i := 0; i < len(result); i++ {

@@ -9,12 +9,13 @@ import (
 )
 
 func getLines() ([]string, string) {
-	argsError, args := handleArgs.CheckArgs(os.Args[1:])
+	myargs := os.Args[1:]
+
+	argsError, args := handleArgs.CheckArgs(myargs)
 	if argsError != nil {
 		fmt.Println(argsError)
 		os.Exit(1)
 	}
-
 
 	bannerFile := ""
 	if len(args) == 1 {
