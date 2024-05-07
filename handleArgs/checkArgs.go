@@ -2,16 +2,17 @@ package handleArgs
 
 import (
 	"errors"
-	"os"
+	"fmt"
 	"strings"
 )
 
-func CheckArgs() (error, []string) {
-	myargs := os.Args[1:]
-
+func CheckArgs(myargs []string) (error, []string) {
+	// myargs := os.Args[1:]
 	if len(myargs) < 1 {
+		fmt.Println("1")
 		return usageMessage(), []string{}
 	} else if len(myargs) > 2 {
+		fmt.Println("2")
 		return usageMessage(), []string{}
 	}
 	if len(myargs) == 2 {

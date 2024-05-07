@@ -64,7 +64,7 @@ func main() {
 		}
 
 	}
-
+//print result
 	for i := 0; i < len(result); i++ {
 		fmt.Print(result[i])
 	}
