@@ -16,7 +16,7 @@ func TestCheckArgsNoArg(t *testing.T) {
 
 // /test with one arg
 func TestCheckArgsOneArg(t *testing.T) {
-	myArgs := []string{"op"}
+	myArgs := []string{""}
 	err, _ := CheckArgs(myArgs)
 
 	if err != nil {
