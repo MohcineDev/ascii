@@ -22,7 +22,8 @@ func main() {
 	if len(input) == 0 {
 		return
 	}
-
+	/// to display correctly in the file
+	result = append(result, "")
 	for a := 0; a < len(words); a++ {
 		for i := 1; i < 9; i++ {
 			endLine = false
