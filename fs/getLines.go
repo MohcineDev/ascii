@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -8,13 +9,19 @@ import (
 	"example/handleArgs"
 )
 
-func getLines() ([]string, string) {
+/// return the lines of the selected ex : (standard , shadow...) file
+///and the first arg
+
+func getLines() ([]string, string, error) {
 	myargs := os.Args[1:]
 
+	///handle args errors
 	argsError, args := handleArgs.CheckArgs(myargs)
 	if argsError != nil {
+
 		fmt.Println(argsError)
-		os.Exit(1)
+		//	os.Exit(1) /// it stops the test
+		return []string{}, "", errors.New("err")
 	}
 
 	bannerFile := ""
@@ -27,9 +34,10 @@ func getLines() ([]string, string) {
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
 		fmt.Println("Error ", args[1], " not found")
-		os.Exit(1)
+		return []string{}, "", errors.New("err")
+
 	}
 	lines := strings.Split(string(file), "\n")
 
-	return lines, args[0]
+	return lines, args[0], nil
 }

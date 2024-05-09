@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	lines, input := getLines()
+	lines, input, _ := getLines()
 	/// hanlde file extension
 
 	// /split the first argument with line break
@@ -14,14 +14,16 @@ func main() {
 	newLineCount := strings.Count(input, "\\n")
 
 	var result []string
-	isLine := false
+	endLine := false
 	count := 0
+
 	if len(input) == 0 {
 		return
 	}
+
 	for a := 0; a < len(words); a++ {
 		for i := 1; i < 9; i++ {
-			isLine = false
+			endLine = false
 
 			for _, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
@@ -34,9 +36,9 @@ func main() {
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 				result = append(result, asciiLine)
-				isLine = true
+				endLine = true
 			}
-			if isLine {
+			if endLine {
 				result = append(result, "\n")
 			}
 		}
