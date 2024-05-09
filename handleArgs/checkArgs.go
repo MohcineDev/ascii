@@ -2,7 +2,7 @@ package handleArgs
 
 import (
 	"errors"
-	"handleFlag"
+	"example.moh/handleFlag"
 )
 
 func CheckArgs(myArgs []string) (error, []string) {
@@ -26,7 +26,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 	} else if len(myArgs) == 3 {
 		isValid, _ := handleFlag.IsValidFlag()
 		if isValid {
-			myArgs = append(myArgs, "validFlag") 
+			myArgs = append(myArgs, "validFlag")
 
 		}
 	}
@@ -81,6 +81,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 }
 
 func usageMessage() error {
+	//error strings should not be capitalized
 	return errors.New(`Usage: go run . [STRING] [BANNER]
 
 EX: go run . something standard`)

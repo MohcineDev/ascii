@@ -2,17 +2,17 @@ package getLines
 
 import (
 	"errors"
+	"example.moh/handleArgs"
 	"fmt"
 	"os"
 	"strings"
-
-	"example/handleArgs"
 )
 
 /// return the lines of the selected file ex : (standard , shadow...) file
 ///and the first arg
 
 func GetLines() ([]string, string, error) {
+
 	myargs := os.Args[1:]
 	///index in the returned args slice
 	inputIndex := 0
@@ -33,7 +33,7 @@ func GetLines() ([]string, string, error) {
 	} else if len(args) == 4 && args[3] == "validFlag" {
 		bannerIndex = 2
 		bannerFile = "../" + args[bannerIndex] + ".txt"
-		inputIndex = 2 
+		inputIndex = 2
 	} else {
 		if len(args) == 1 {
 			bannerFile = "../standard.txt"
