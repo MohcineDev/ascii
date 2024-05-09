@@ -11,7 +11,7 @@ var outputPtr = flag.String("output", "", "a string")
 
 // // check if the flag is valid and return the file name
 func IsValidFlag() (bool, string) {
-	// hi the first line
+	// hide the first line
 	flag.CommandLine.SetOutput(io.Discard)
 	// catch if there is an error
 	flag.Usage = func() {
@@ -20,7 +20,7 @@ func IsValidFlag() (bool, string) {
 		// remove the last line
 		os.Exit(0)
 	}
-	///extract the flag
+	// extract the flag
 	flag.Parse()
 	outputFile := *outputPtr
 
