@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"getLines"
 	"strings"
 )
 
 func main() {
-	lines, input, _ := getLines()
+	lines, input, _ := getLines.GetLines()
 	/// hanlde file extension
 
 	// /split the first argument with line break

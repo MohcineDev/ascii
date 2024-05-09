@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"getLines"
+	"handleFlag"
+	"os"
 	"strings"
 )
 
@@ -58,15 +60,13 @@ func main() {
 	}
 
 	//////////////// O U T P U T ///////////////////
-	//	outputPtr := flag.String("output", "", "a string")
+	if len(os.Args[1:]) >= 2 {
 
-	//	flag.Parse()
-
-	//	outputFile := *outputPtr
-
-	//writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, " ")), 0o644)
-	//////IF THERE IS ANN ERROR WRITING THE FILE! EX :
-	// if writingErr != nil {
-	// 	fmt.Println("Error : can't write the file")
-	// }
+		_, fileName := handleFlag.IsValidFlag()
+		writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
+		////IF THERE IS ANN ERROR WRITING THE FILE! EX :
+		if writingErr != nil {
+			fmt.Println("Error : can't write the file")
+		}
+	}
 }

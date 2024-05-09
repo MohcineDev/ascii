@@ -1,4 +1,4 @@
-package main
+package getLines
 
 import (
 	"os"
@@ -13,7 +13,7 @@ import (
 func TestGetLinesWithoutFile(t *testing.T) {
 	os.Args = []string{"go run .", "AA"}
 
-	_, _, err := getLines()
+	_, _, err := GetLines()
 	// line not found // empty
 	if err != nil {
 		t.Fatalf(`error msg`)
@@ -26,7 +26,7 @@ func TestGetLinesWithoutFile(t *testing.T) {
 func TestGetLinesWrongFile(t *testing.T) {
 	os.Args = []string{"go run .", "FF", "shadowwww"}
 
-	_, _, err := getLines()
+	_, _, err := GetLines()
 	// line not found // empty
 	if err != nil {
 		t.Fatalf(`error msg`)
@@ -38,7 +38,7 @@ func TestGetLinesWrongFile(t *testing.T) {
 func TestGetLinesMoreArgs(t *testing.T) {
 	os.Args = []string{"go run .", "DD", "shadow", "arg3"}
 
-	_, _, err := getLines()
+	_, _, err := GetLines()
 	// line not found // empty
 	if err != nil {
 		t.Fatalf(`error msg`)
