@@ -1,9 +1,9 @@
 package main
 
 import (
+	"example.moh/getLines"
+	"example.moh/handleFlag"
 	"fmt"
-	"getLines"
-	"handleFlag"
 	"os"
 	"strings"
 )
