@@ -3,25 +3,27 @@ package main
 import (
 	"fmt"
 	"getLines"
+	"handleFlag"
+	"os"
 	"strings"
 )
 
 func main() {
-	lines, input, _ := getLines.GetLines()
-	/// hanlde file extension
-
-	// /split the first argument with line break
-	words := strings.Split(input, "\\n")
-	newLineCount := strings.Count(input, "\\n")
-
 	var result []string
 	endLine := false
 	count := 0
 
+	// /open asciii
+	lines, input, _ := getLines.GetLines()
+
+	words := strings.Split(input, "\\n")
+	newLineCount := strings.Count(input, "\\n")
+
 	if len(input) == 0 {
 		return
 	}
-
+	/// to display correctly in the file
+	result = append(result, "")
 	for a := 0; a < len(words); a++ {
 		for i := 1; i < 9; i++ {
 			endLine = false
@@ -51,8 +53,21 @@ func main() {
 
 	}
 
-	////Print result
+	///* end ascii
+
+	// print result
 	for i := 0; i < len(result); i++ {
 		fmt.Print(result[i])
+	}
+
+	//////////////// O U T P U T ///////////////////
+	if len(os.Args[1:]) >= 2 {
+
+		_, fileName := handleFlag.IsValidFlag()
+		writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
+		////IF THERE IS ANN ERROR WRITING THE FILE! EX :
+		if writingErr != nil {
+			fmt.Println("Error : can't write the file")
+		}
 	}
 }
