@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+
+/*
+/////////////  TO DO:
+- change the error msg when running :  go run . 
+- 
+*/
 func main() {
 	var result []string
 	endLine := false

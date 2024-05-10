@@ -2,17 +2,17 @@ package getLines
 
 import (
 	"errors"
-	"example.moh/handleArgs"
 	"fmt"
 	"os"
 	"strings"
+
+	"example.moh/handleArgs"
 )
 
 /// return the lines of the selected file ex : (standard , shadow...) file
 ///and the first arg
 
 func GetLines() ([]string, string, error) {
-
 	myargs := os.Args[1:]
 	///index in the returned args slice
 	inputIndex := 0
@@ -27,24 +27,29 @@ func GetLines() ([]string, string, error) {
 	}
 
 	bannerFile := ""
-	if len(args) == 3 && args[2] == "validFlag" {
+	if len(args) == 2 {
+		inputIndex = 0
+		bannerIndex = 1
+		bannerFile = "../" + args[bannerIndex]
+		fmt.Println("GetLines : ", args)
+	} else if len(args) == 3 && args[2] == "validFlag" {
 		bannerFile = "../standard.txt"
 		inputIndex = 1
 	} else if len(args) == 4 && args[3] == "validFlag" {
 		bannerIndex = 2
-		bannerFile = "../" + args[bannerIndex] + ".txt"
-		inputIndex = 2
+		bannerFile = "../" + args[bannerIndex]
+		inputIndex = 1
 	} else {
 		if len(args) == 1 {
 			bannerFile = "../standard.txt"
 		} else if len(args) == 2 {
-			bannerFile = "../" + args[bannerIndex] + ".txt"
+			bannerFile = "../" + args[bannerIndex]
 		}
 	}
-
+	fmt.Println("bannerFile: ", bannerFile)
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
-		fmt.Println("Error ", args[bannerIndex], " not found")
+		fmt.Println("Error :", args[bannerIndex], "file not found")
 		return []string{}, "", errors.New("err")
 
 	}
