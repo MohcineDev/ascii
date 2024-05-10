@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"path"
-	"strings"
 
 	"example.moh/handleFlag"
 )
@@ -30,22 +29,23 @@ func CheckArgs(myArgs []string) (error, []string) {
 		if isValid {
 			myArgs = append(myArgs, "validFlag")
 		} else {
-			myArgs[1] = getBannerFileName(myArgs[1])
+			return usageMessage(), []string{}
+
+//			myArgs[1] = getBannerFileName(myArgs[1])
 		}
 	} else if len(myArgs) == 3 {
 
 		isValid, _ := handleFlag.IsValidFlag()
 
 		if isValid {
-			if strings.Contains(myArgs[2], ".") {
-				myArgs[2] = getBannerFileName(myArgs[2])
-			}
+			myArgs[2] = getBannerFileName(myArgs[2])
 			myArgs = append(myArgs, "validFlag")
+		} else {
+			return usageMessage(), []string{}
 		}
-
+		fmt.Println(myArgs)
 	}
 
-	fmt.Println("end : ", myArgs)
 	return nil, myArgs
 
 	/*
@@ -84,11 +84,8 @@ func usageMessage() error {
 }
 
 func getBannerFileName(Banner string) string {
-	fileName := ""
 	if path.Ext(Banner) != ".txt" {
-		fileName = Banner + ".txt"
+		Banner += ".txt"
 	}
-	fmt.Println("hi from getBannerFileName!!!!!!!!!")
-
-	return fileName
+	return Banner
 }

@@ -27,6 +27,5 @@ func IsValidFlag() (bool, string) {
 	if len(outputFile) >= 1 {
 		isValid = true
 	}
-	fmt.Println("------ valid Flag ", isValid)
 	return isValid, outputFile
 }

@@ -1,18 +1,18 @@
 package main
 
 import (
-	"example.moh/getLines"
-	"example.moh/handleFlag"
 	"fmt"
 	"os"
 	"strings"
-)
 
+	"example.moh/getLines"
+	"example.moh/handleFlag"
+)
 
 /*
 /////////////  TO DO:
-- change the error msg when running :  go run . 
-- 
+- change the error msg when running :  go run .
+-
 */
 func main() {
 	var result []string
@@ -61,17 +61,17 @@ func main() {
 
 	///* end ascii
 
-	// print result
-	for i := 0; i < len(result); i++ {
-		fmt.Print(result[i])
-	}
-
 	//////////////// O U T P U T ///////////////////
-	if len(os.Args[1:]) >= 2 {
-
-		_, fileName := handleFlag.IsValidFlag()
+	valid, fileName := handleFlag.IsValidFlag()
+	if !valid {
+		// print result
+		for i := 0; i < len(result); i++ {
+			fmt.Print(result[i])
+		}
+	} else if len(os.Args[1:]) >= 2 && valid {
+fmt.Println("151")
 		writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
-		////IF THERE IS ANN ERROR WRITING THE FILE! EX :
+		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
 			fmt.Println("Error : can't write the file")
 		}
