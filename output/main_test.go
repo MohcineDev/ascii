@@ -93,5 +93,18 @@ func TestMainThreeArgs(t *testing.T) {
 	}
 	if !strings.EqualFold(string(result), string(res)) {
 		t.Fatalf("not equal")
-	}	
+	}
+}
+
+// more than 3
+func TestMainMoreThanThreeArgs(t *testing.T) {
+	cmd := exec.Command("./output", "--output=./test/four.txt", "Hello", "thinkertoy", "sz")
+
+	output, _ := cmd.Output()
+
+	usageMsg := "Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n"
+
+	if !strings.EqualFold(usageMsg, string(output)) {
+		t.Fatalf("error")
+	}
 }
