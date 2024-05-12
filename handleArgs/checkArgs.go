@@ -2,7 +2,6 @@ package handleArgs
 
 import (
 	"errors"
-	"fmt"
 	"path"
 
 	"example.moh/handleFlag"
@@ -10,40 +9,41 @@ import (
 
 func CheckArgs(myArgs []string) (error, []string) {
 	/*
-		if <1 +>>>> err msg
-		if == 2 add func if the flag is valid  //--- go run . --output=result.txt "HELLO"
+		if < 0 || > 2 +>>>> err msg
+		if == 1 add func if the flag is valid  //--- go run . --output=result.txt "HELLO"
 			//y : save the result to the result.txt file using standard file format
-			//no : check if the second arg is a valid file format name
-				/// y : display the text in the terminal using the specified format
-				/// n : display err file not found
-		if == 3
-			/// check the second one if it is a valid file
+			//no : display the text in the terminal using the standard format
+		if == 2
+			//check if it's a valid flag
+				/// y : check if the second arg is a valid file format name
+				 	/// y : save the result to the result.txt file using specified file format
+					/// n : display err file not found
+				///n : display err file not found
+	*/
+	/*
+			   - or -- you decalre a flag
+			   // the flag is not counted it's handled by the flag.parse()
+			   //args are returned from the flag.Args() function
+		go run . //done
+		one arg
+		two args
 	*/
 
-	if len(myArgs) < 1 || len(myArgs) > 3 {
+	if len(myArgs) < 1 || len(myArgs) > 2 {
 		return usageMessage(), []string{}
-	} else if len(myArgs) == 2 {
-		isValid, _ := handleFlag.IsValidFlag()
+	}
 
+	isValid, _ := handleFlag.IsValidFlag()
+	if len(myArgs) == 1 {
 		/// if the flag is valid save the text to the result file using standard file format
 		if isValid {
 			myArgs = append(myArgs, "validFlag")
-		} else {
-			return usageMessage(), []string{}
-
-//			myArgs[1] = getBannerFileName(myArgs[1])
 		}
-	} else if len(myArgs) == 3 {
-
-		isValid, _ := handleFlag.IsValidFlag()
-
+	} else if len(myArgs) == 2 {
+		myArgs[1] = getBannerFileName(myArgs[1])
 		if isValid {
-			myArgs[2] = getBannerFileName(myArgs[2])
 			myArgs = append(myArgs, "validFlag")
-		} else {
-			return usageMessage(), []string{}
 		}
-		fmt.Println(myArgs)
 	}
 
 	return nil, myArgs
