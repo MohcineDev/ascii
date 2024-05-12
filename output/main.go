@@ -20,8 +20,7 @@ func main() {
 	count := 0
 
 	// /open asciii
-	lines, input, _ := getLines.GetLines()
-
+	lines, input:= getLines.GetLines()
 	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
 
@@ -69,7 +68,6 @@ func main() {
 			fmt.Print(result[i])
 		}
 	} else if len(os.Args[1:]) >= 2 && valid {
-fmt.Println("151")
 		writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
 		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
