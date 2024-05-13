@@ -26,7 +26,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 		return usageMessage(), []string{}
 	}
 	isValid, _ := handleFlag.IsValidFlag(myArgs[0])
-	fmt.Println(isValid, myArgs[0])
+	fmt.Println(isValid, myArgs, len(myArgs))
 	if len(myArgs) == 1 {
 		/// if the flag is valid save the text to the result file using standard file format
 		// if string(myArgs[0][0]) == "-" && string(myArgs[0][1]) != "-" {
@@ -39,11 +39,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 			return nil, myArgs
 		}
 	} else if len(myArgs) == 2 {
-		fmt.Println(myArgs)
-		if string(myArgs[0][0]) == "-" && string(myArgs[0][1]) != "-" {
-			return usageMessage(), []string{}
-		}
 		if isValid {
+			fmt.Println("122")
 			myArgs = append(myArgs, "validFlag")
 		} else {
 			myArgs[1] = getBannerFileName(myArgs[1])
@@ -53,7 +50,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs = append(myArgs, "validFlag")
 
 			myArgs[2] = getBannerFileName(myArgs[2])
-		} else {
 		}
 	}
 
@@ -99,7 +95,4 @@ func getBannerFileName(Banner string) string {
 		Banner += ".txt"
 	}
 	return Banner
-}
-
-func startWithDash() {
 }
