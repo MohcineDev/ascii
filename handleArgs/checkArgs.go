@@ -2,6 +2,7 @@ package handleArgs
 
 import (
 	"errors"
+	"fmt"
 	"path"
 
 	"example.moh/handleFlag"
@@ -21,20 +22,37 @@ func CheckArgs(myArgs []string) (error, []string) {
 				///n : display err file not found
 	*/
 
-	if len(myArgs) < 1 || len(myArgs) > 2 {
+	if len(myArgs) < 1 || len(myArgs) > 3 {
 		return usageMessage(), []string{}
 	}
 	isValid, _ := handleFlag.IsValidFlag()
+
+	fmt.Println("flag is : ", isValid, "\n")
+	fmt.Println("myArgs length : ", len(myArgs))
 	if len(myArgs) == 1 {
 		/// if the flag is valid save the text to the result file using standard file format
 
 		if isValid {
-			myArgs = append(myArgs, "validFlag")
+			return usageMessage(), []string{}
+		} else {
+			return nil, myArgs
 		}
 	} else if len(myArgs) == 2 {
-		myArgs[1] = getBannerFileName(myArgs[1])
+		fmt.Println("myArgs")
 		if isValid {
 			myArgs = append(myArgs, "validFlag")
+		} else {
+			if len(myArgs[0]) >= 2 && myArgs[0][0:2] == "--" {
+				return usageMessage(), []string{}
+			}
+			return nil, myArgs
+		}
+	} else if len(myArgs) == 3 {
+		if isValid {
+			myArgs = append(myArgs, "validFlag")
+
+			myArgs[2] = getBannerFileName(myArgs[2])
+		} else {
 		}
 	}
 
