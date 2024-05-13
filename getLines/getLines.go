@@ -11,25 +11,22 @@ import (
 )
 
 /// return the lines of the selected file ex : (standard , shadow...) file
-///and the first arg
+/// and the first arg
 
 func GetLines() ([]string, string) {
-	///Parse parses the command-line flags from os.Args[1:]. Must be called after all flags are defined and before flags are accessed by the program.
-	// hide the first line
+	// hide the first line in the terminal
 	flag.CommandLine.SetOutput(io.Discard)
 	// catch if there is an error
 	flag.Usage = func() {
 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
-
 		// remove the last line
-		os.Exit(0)
 	}
+	///Parse parses the command-line flags from os.Args[1:]. Must be called after all flags are defined and before flags are accessed by the program.
 	flag.Parse()
+	// save args without the flag
 	myargs := flag.Args()
 
-	///index in the returned args slice
-	bannerIndex := 1
-	///handle args errors
+	///handle args error
 	argsError, args := handleArgs.CheckArgs(myargs)
 	if argsError != nil {
 		fmt.Println(argsError)
@@ -41,20 +38,20 @@ func GetLines() ([]string, string) {
 		if len(args) == 2 { // args = [flag, text, "validFlag"]
 			bannerFile = "../standard.txt"
 		} else if len(args) == 3 {
-			bannerFile = "../" + args[bannerIndex]
+			bannerFile = "../" + args[1]
 		}
 	} else {
 		if len(args) == 1 {
 			bannerFile = "../standard.txt"
 		} else if len(args) == 2 {
 			/// fs project // no flag
-			bannerFile = "../" + args[bannerIndex]
+			bannerFile = "../" + args[1]
 		}
 	}
 
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
-		fmt.Println("Error :", args[bannerIndex], "file not found")
+		fmt.Println("Error :", args[1], "file not found")
 		return []string{}, ""
 
 	}

@@ -20,22 +20,14 @@ func CheckArgs(myArgs []string) (error, []string) {
 					/// n : display err file not found
 				///n : display err file not found
 	*/
-	/*
-			   - or -- you decalre a flag
-			   // the flag is not counted it's handled by the flag.parse()
-			   //args are returned from the flag.Args() function
-		go run . //done
-		one arg
-		two args
-	*/
 
 	if len(myArgs) < 1 || len(myArgs) > 2 {
 		return usageMessage(), []string{}
 	}
-
 	isValid, _ := handleFlag.IsValidFlag()
 	if len(myArgs) == 1 {
 		/// if the flag is valid save the text to the result file using standard file format
+
 		if isValid {
 			myArgs = append(myArgs, "validFlag")
 		}

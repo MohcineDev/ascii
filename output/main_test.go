@@ -96,7 +96,7 @@ func TestMainThreeArgs(t *testing.T) {
 	}
 }
 
-// more than 3
+// more than 3 arguments
 func TestMainMoreThanThreeArgs(t *testing.T) {
 	cmd := exec.Command("./output", "--output=./test/four.txt", "Hello", "thinkertoy", "sz")
 

@@ -11,7 +11,7 @@ import (
 
 /*
 /////////////  TO DO:
-- change the error msg when running :  go run .
+- change the error msg when running :
 -
 */
 func main() {
@@ -19,8 +19,7 @@ func main() {
 	endLine := false
 	count := 0
 
-	// /open asciii
-	lines, input:= getLines.GetLines()
+	lines, input := getLines.GetLines()
 	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
 
@@ -58,8 +57,6 @@ func main() {
 
 	}
 
-	///* end ascii
-
 	//////////////// O U T P U T ///////////////////
 	valid, fileName := handleFlag.IsValidFlag()
 	if !valid {
@@ -71,7 +68,7 @@ func main() {
 		writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
 		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
-			fmt.Println("Error : can't write the file")
+			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
 		}
 	}
 }

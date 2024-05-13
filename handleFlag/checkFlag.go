@@ -21,8 +21,13 @@ func IsValidFlag() (bool, string) {
 	// extract the flag
 	flag.Parse()
 	outputFile := *outputPtr
-	if len(outputFile) >= 1 {
+
+	if flag.NFlag() == 1 {
 		isValid = true
 	}
+
+	// if len(outputFile) >= 1 {
+	// 	isValid = true
+	// }
 	return isValid, outputFile
 }
