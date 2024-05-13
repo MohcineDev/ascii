@@ -2,13 +2,13 @@ package handleFlag
 
 import (
 	"flag"
-	"os"
+	"fmt"
 )
 
 var outputPtr = flag.String("output", "", "a string")
 
 // // check if the flag is valid and return the file name
-func IsValidFlag() (bool, string) {
+func IsValidFlag(myFlag string) (bool, string) {
 	isValid := true
 	// // hide the first line
 	// flag.CommandLine.SetOutput(io.Discard)
@@ -20,13 +20,12 @@ func IsValidFlag() (bool, string) {
 	// 	os.Exit(0)
 	// }
 	// extract the flag
-	flag.Parse()
-
-	myFlag := os.Args[1]
-	//	fileExt := path.Ext(os.Args[1])
+	// flag.Parse()
+	fmt.Println("myFlag", myFlag)
+	// fileExt := path.Ext(myFlag)
 
 	outputFile := *outputPtr
-	if len(myFlag) >= 9 && myFlag[:9] != "--output=" || flag.NFlag() < 1 {
+	if len(myFlag) >= 9 && myFlag[:9] != "--output=" {
 		isValid = false
 	}
 	// if len(outputFile) >= 1 {

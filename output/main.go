@@ -58,7 +58,7 @@ func main() {
 	}
 
 	//////////////// O U T P U T ///////////////////
-	valid, fileName := handleFlag.IsValidFlag()
+	valid, fileName := handleFlag.IsValidFlag(os.Args[1])
 	if !valid {
 		// print result
 		for i := 0; i < len(result); i++ {

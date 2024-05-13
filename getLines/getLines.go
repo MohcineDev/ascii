@@ -18,13 +18,13 @@ func GetLines() ([]string, string) {
 	// hide the first line in the terminal
 	flag.CommandLine.SetOutput(io.Discard)
 	// catch if there is an error
-	flag.Usage = func() {
-		fmt.Println("from usage \n Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
-		// remove the last line
-		os.Exit(0)
-	}
+	// flag.Usage = func() {
+	// 	fmt.Println("from usage \n Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+	// 	// remove the last line
+	// 	os.Exit(0)
+	// }
 	///Parse parses the command-line flags from os.Args[1:]. Must be called after all flags are defined and before flags are accessed by the program.
-	flag.Parse()
+	//flag.Parse()
 
 	// save args without the flag
 	//	myargs := flag.Args()
@@ -55,11 +55,15 @@ func GetLines() ([]string, string) {
 			bannerFile = "../standard.txt"
 		} else if len(args) == 2 {
 			bannerIndex = 1
-			fmt.Println("00")
 			/// fs project // no flag
 			bannerFile = "../" + args[bannerIndex]
+		} else if len(args) >= 3 {
+			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+			// remove the last line
+			os.Exit(0)
 		}
 	}
+	fmt.Println(bannerFile)
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
 		fmt.Println("Error :", args[bannerIndex], "file not found")
