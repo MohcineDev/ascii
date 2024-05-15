@@ -2,7 +2,6 @@ package handleArgs
 
 import (
 	"errors"
-	"fmt"
 	"path"
 
 	"example.moh/handleFlag"
@@ -46,7 +45,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 			}
 			myArgs = append(myArgs, "colorFlag")
 
-			fmt.Println("ooo")
 		} else {
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
@@ -57,6 +55,15 @@ func CheckArgs(myArgs []string) (error, []string) {
 				return usageMessage(), []string{}
 			}
 			myArgs[2] = getBannerFileName(myArgs[2])
+			///color flag
+		} else if isColor {
+
+			if len(color) < 1 {
+				///Error : color not found!!!
+				return usageMessage(), []string{}
+			}
+			myArgs = append(myArgs, "colorFlag")
+
 		}
 	}
 

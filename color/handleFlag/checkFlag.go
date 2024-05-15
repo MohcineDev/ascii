@@ -28,7 +28,6 @@ func IsValidFlag(myFlags []string) (bool, string, bool, string) {
 	if !isColor && len(myFlags) >= 2 {
 		isColor, color = checkIfColor(myFlags, 1)
 	}
-	fmt.Println("flags : ", isOutput, isColor)
 	if isOutput && isColor {
 		fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
 		os.Exit(1)
@@ -77,6 +76,5 @@ func getColorANSI(color string) string {
 		"green": "\033[32m", "yellow": "\033[33m", "blue": "\033[34m",
 		"magenta": "\033[35m", "cyan": "\033[36m", "gray": "\033[37m", "white": "\033[97m",
 	}
-	fmt.Println(colors[color])
 	return colors[color]
 }

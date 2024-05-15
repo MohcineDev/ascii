@@ -35,7 +35,8 @@ func main() {
 			for _, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
 					fmt.Println("Error : char '", string(char), "' not found!!")
-					return
+					// return
+					os.Exit(1)
 				}
 				s := (int(char) - 32) * 9
 
@@ -63,14 +64,15 @@ func main() {
 	outputFile := ""
 	color := ""
 	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
-	if isColor {
-		fmt.Println(color)
-	}
+
 	if !isOutput {
 		// chosenColor := "\033[31m"
 		// print result
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])
+		}
+		if isColor {
+			fmt.Println(color)
 		}
 	} else if len(os.Args[1:]) >= 2 && isOutput {
 		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, " ")), 0o644)
