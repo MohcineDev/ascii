@@ -25,9 +25,9 @@ func GetLines() ([]string, string) {
 		if len(args) == 2 { // args = [flag, text, "validFlag"]
 			bannerFile = "../standard.txt"
 		} else if len(args) == 3 {
-			fmt.Println("44")
+			fmt.Println("len 3")
 			inputIndex = 1
-			bannerFile = "../standard.txt"
+			bannerFile = "./Banners/standard.txt"
 		} else if len(args) == 4 {
 			bannerIndex = 2
 			inputIndex = 1
@@ -46,10 +46,11 @@ func GetLines() ([]string, string) {
 			os.Exit(0)
 		}
 	}
-
+	fmt.Println(bannerFile)
+	fmt.Println(args[bannerIndex])
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
-		fmt.Println("Error :", args[bannerIndex], "file not found")
+		fmt.Println("Error :", bannerFile, "file not found")
 		return []string{}, ""
 
 	}

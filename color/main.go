@@ -2,10 +2,17 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"example.moh/getLines"
+	"example.moh/handleFlag"
 )
+
+//TODO
+/// when using output flag display output usage msg
+/// when using color flag display color usage msg
+///
 
 func main() {
 	var result []string
@@ -35,7 +42,7 @@ func main() {
 				asciiLine := lines[s+i]
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
-				result = append(result, asciiLine)
+				result = append(result, "\033[33m"+asciiLine)
 				endLine = true
 			}
 			if endLine {
@@ -49,19 +56,29 @@ func main() {
 		}
 
 	}
-
 	//////////////// O U T P U T ///////////////////
-	// valid, fileName := handleFlag.IsValidFlag(os.Args[:1])
-	// if !valid {
-	// 	// print result
-	// 	for i := 0; i < len(result); i++ {
-	// 		fmt.Print(result[i])
-	// 	}
-	// } else if len(os.Args[1:]) >= 2 && valid {
-	// 	writingErr := os.WriteFile(fileName, []byte(strings.Join(result, " ")), 0o644)
-	// 	////IF THERE IS AN ERROR WRITING THE FILE! EX :
-	// 	if writingErr != nil {
-	// 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
-	// 	}
-	// }
+	isOutput := false
+	isColor := false
+
+	outputFile := ""
+	color := ""
+	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
+	if isColor {
+		fmt.Println(color)
+	}
+	if !isOutput {
+		// chosenColor := "\033[31m"
+		// print result
+		for i := 0; i < len(result); i++ {
+			fmt.Print(result[i])
+		}
+	} else if len(os.Args[1:]) >= 2 && isOutput {
+		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, " ")), 0o644)
+		////IF THERE IS AN ERROR WRITING THE FILE! EX :
+		if writingErr != nil {
+			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+		}
+	}
 }
+
+///find letters to be colored first index
