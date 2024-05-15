@@ -42,7 +42,7 @@ func main() {
 				asciiLine := lines[s+i]
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
-				result = append(result, "\033[33m"+asciiLine)
+				result = append(result, handleFlag.GetColor()+asciiLine)
 				endLine = true
 			}
 			if endLine {

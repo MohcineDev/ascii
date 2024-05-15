@@ -17,6 +17,8 @@ func GetLines() ([]string, string) {
 		fmt.Println(argsError)
 		os.Exit(0) /// it stops the test
 	}
+
+	fmt.Println("getline args : ", args, len(args))
 	bannerFile := ""
 	inputIndex := 0
 	bannerIndex := 0
@@ -32,6 +34,12 @@ func GetLines() ([]string, string) {
 			bannerIndex = 2
 			inputIndex = 1
 			bannerFile = "../" + args[bannerIndex]
+		}
+	} else if args[len(args)-1] == "colorFlag" {
+		if len(args) == 3 {
+			fmt.Println("len 3")
+			inputIndex = 1
+			bannerFile = "./Banners/standard.txt"
 		}
 	} else {
 		if len(args) == 1 {

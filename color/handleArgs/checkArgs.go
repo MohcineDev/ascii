@@ -20,11 +20,13 @@ func CheckArgs(myArgs []string) (error, []string) {
 	}
 	///flag is output or color
 	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(myArgs)
-	if isColor {
-		fmt.Println(color)
-	}
+
+	///////////  OUTPUT ////////
 	if len(myArgs) == 1 {
 		if isOutput {
+			return usageMessage(), []string{}
+		} else if isColor {
+			///use color usage msg
 			return usageMessage(), []string{}
 		} else {
 			return nil, myArgs
@@ -35,7 +37,16 @@ func CheckArgs(myArgs []string) (error, []string) {
 				return usageMessage(), []string{}
 			}
 			myArgs = append(myArgs, "validFlag")
-			fmt.Println("12")
+		} else if isColor {
+			///color flag
+
+			if len(color) < 1 {
+				///Error : color not found!!!
+				return usageMessage(), []string{}
+			}
+			myArgs = append(myArgs, "colorFlag")
+
+			fmt.Println("ooo")
 		} else {
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
