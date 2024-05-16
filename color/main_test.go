@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -8,12 +9,17 @@ import (
 )
 
 func TestMainOneArg(t *testing.T) {
-	cmd := exec.Command("./output", "1")
+	cmd := exec.Command("./output", "12")
+
+	output, _ := cmd.Output()
+	////---
 	content, err := os.ReadFile("./test/one.txt")
 	if err != nil {
 		t.Fatalf("error")
 	}
-	output, _ := cmd.Output()
+	////---
+	fmt.Println(output)
+
 	if !strings.EqualFold(string(content), string(output)) {
 		t.Fatalf("not equal")
 	}

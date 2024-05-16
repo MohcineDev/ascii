@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"example.moh/getLines"
@@ -19,7 +20,8 @@ func main() {
 	endLine := false
 	count := 0
 
-	lines, input := getLines.GetLines()
+	lines, input, lettersIndex := getLines.GetLines()
+
 	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
 
@@ -28,9 +30,12 @@ func main() {
 	}
 	/// to display correctly in the file
 	result = append(result, "")
+	letterIndex := 0
 	for a := 0; a < len(words); a++ {
+
 		for i := 1; i < 9; i++ {
 			endLine = false
+			letterIndex = 0
 
 			for _, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
@@ -43,12 +48,25 @@ func main() {
 				asciiLine := lines[s+i]
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
-				result = append(result, handleFlag.GetColor()+asciiLine)
+
+				if slices.Contains(lettersIndex, letterIndex) {
+					// asciiLine = handleFlag.GetColor() + asciiLine + "\033[0m"
+					result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
+				} else {
+					result = append(result, asciiLine)
+				}
+
 				endLine = true
+
+				letterIndex++
+				// jffeessnxffee1
+				// jبeessnxبee1
 			}
+
 			if endLine {
 				result = append(result, "\n")
 			}
+
 		}
 
 		if count < newLineCount && words[a] == "" {
@@ -71,6 +89,7 @@ func main() {
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])
 		}
+
 		if isColor {
 			fmt.Println(color)
 		}

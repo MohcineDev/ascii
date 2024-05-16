@@ -8,9 +8,9 @@ import (
 	"example.moh/handleArgs"
 )
 
-func GetLines() ([]string, string) {
+func GetLines() ([]string, string, []int) {
 	myArgs := os.Args[1:]
-
+	LettersIndex := []int{}
 	///handle args error
 	argsError, args := handleArgs.CheckArgs(myArgs)
 	if argsError != nil {
@@ -42,14 +42,14 @@ func GetLines() ([]string, string) {
 			inputIndex = 1
 		} else if len(args) == 4 {
 			inputIndex = 2
-			getLettersIndex(args[2], args[1])
+			LettersIndex = getLettersIndex(args[2], args[1])
 		}
 	} else {
 		if len(args) == 1 {
 			bannerFile = "../standard.txt"
 		} else if len(args) == 2 {
 			bannerIndex = 1
-			/// fs project // no flag
+			/// fs projLettersIndex := ect // no flag
 			bannerFile = "../" + args[bannerIndex]
 		} else if len(args) >= 3 {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
@@ -60,45 +60,38 @@ func GetLines() ([]string, string) {
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
 		fmt.Println("Error :", bannerFile, "file not found")
-		return []string{}, ""
+		return []string{}, "", []int{}
 
 	}
 	lines := strings.Split(string(file), "\n")
 
-	return lines, args[inputIndex]
+	return lines, args[inputIndex], LettersIndex
 }
 
 func getLettersIndex(input string, letters string) []int {
 	var indexes []int
-	mm := strings.ReplaceAll(input, letters, "²")
+	mm := strings.ReplaceAll(input, letters, "ب")
+	myInput := []rune(mm)
 
-	fmt.Println("mm:", mm)
-	for i := 0; i < len(mm); i++ {
-		if string(mm[i]) == "²" {
+	fmt.Println(mm)
+	for i, v := range myInput {
+		if v == 'ب' {
 			indexes = append(indexes, i)
 		}
 	}
-	fmt.Println("indexes : ", indexes, len(indexes))
-	return []int{}
-	/*
-			FOR input
-			if input[i] == letters[a]
-			index++
-			a++
+	if len(indexes) > 1 {
+		for i := 1; i < len(indexes); i++ {
+			indexes[i] += len(letters) - 1
+			fmt.Println("i : ", indexes[i])
+		}
+	}
 
-				lo
-				helloheqsdhere 10
-				²llo²qsd²re 8
+	a := len(indexes)
+	for i := 0; i < a; i++ {
+		for j := 1; j < len(letters); j++ {
+			indexes = append(indexes, indexes[i]+j)
+		}
+	}
 
-		count
-				for letter to color
-					for input
-						if letter[i] == input[j]{
-							count ++
-							break
-
-						}
-
-		nakhod l indec d l badya
-	*/
+	return indexes
 }
