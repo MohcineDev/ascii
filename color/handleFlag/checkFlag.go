@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -68,9 +69,10 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 
 	if isColor {
 		if strings.Contains(color, "(") {
-			color = "\033[38;2;95;66;160m"
+			// color = "\033[38;2;138;150;240m"
+			color = getRgbColor(color)
 		} else {
-			color = getANSIColor(color)
+			color = getANSIColor(strings.ToLower(color))
 		}
 	}
 
@@ -79,17 +81,27 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 
 func getANSIColor(color string) string {
 	colors := map[string]string{
-		"red":   "\033[31m",
-		"green": "\033[32m", "yellow": "\033[33m", "blue": "\033[34m",
-		"magenta": "\033[35m", "cyan": "\033[36m", "gray": "\033[37m", "white": "\033[97m",
+		"red": "\033[31m", "green": "\033[32m", "yellow": "\033[33m", "blue": "\033[34m",
+		"magenta": "\033[35m", "cyan": "\033[36m", "gray": "\033[37m", "white": "\033[97m", "bright black": "\033[90m", "bright Red": "\033[91m",
+		"bright Green": "\033[92m", "bright Yellow": "\033[93m", "bright blue": "\033[94m", "bright Magenta": "\033[95m", "bright Cyan": "\033[96m",
 	}
 	return colors[color]
 }
 
 func getRgbColor(rgbInput string) string {
-	fmt.Println(rgbInput)
+	rgb := ""
 
-	return rgbInput
+	fmt.Println("getRgbColor: ", rgbInput)
+
+	r, _ := regexp.Compile(`[0-9]+,[0-9]+,[0-9]+`)
+	onlyNbr := r.FindString(rgbInput)
+
+	if len(onlyNbr) >= 1 {
+		rgb = "\033[38;2;" + strings.ReplaceAll(onlyNbr, ",", ";") + "m"
+	}
+
+	fmt.Println("rgb : ", rgb)
+	return rgb
 }
 
 func getColor(color string) {

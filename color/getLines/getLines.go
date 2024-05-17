@@ -23,7 +23,6 @@ func GetLines() ([]string, string) {
 		os.Exit(0) /// it stops the test
 	}
 
-	fmt.Println("getline args : ", args, len(args))
 	bannerFile := ""
 	inputIndex := 0
 	bannerIndex := 0
@@ -45,7 +44,6 @@ func GetLines() ([]string, string) {
 		////if there is a color flag
 		bannerFile = "./Banners/standard.txt"
 		if len(args) == 3 {
-			fmt.Println("hi")
 			inputIndex = 1
 		} else if len(args) == 4 {
 			LettersToColor = args[1]
@@ -80,7 +78,6 @@ func GetLettersIndex(input string, letters string) []int {
 	mm := strings.ReplaceAll(input, letters, "ب")
 	myInput := []rune(mm)
 
-	fmt.Println(mm)
 	for i, v := range myInput {
 		if v == 'ب' {
 			indexes = append(indexes, i)
@@ -99,6 +96,6 @@ func GetLettersIndex(input string, letters string) []int {
 			indexes = append(indexes, indexes[i]+j)
 		}
 	}
-	fmt.Println("indexes : ", indexes)
+
 	return indexes
 }
