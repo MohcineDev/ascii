@@ -19,8 +19,10 @@ func main() {
 	var result []string
 	endLine := false
 	count := 0
+	var lettersIndex []int
 
-	lines, input, lettersIndex := getLines.GetLines()
+	lines, input := getLines.GetLines()
+	fmt.Println("getLines.LettersToColor : ", getLines.LettersToColor)
 
 	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
@@ -32,7 +34,9 @@ func main() {
 	result = append(result, "")
 	letterIndex := 0
 	for a := 0; a < len(words); a++ {
-
+		if len(getLines.LettersToColor) >= 1 {
+			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
+		}
 		for i := 1; i < 9; i++ {
 			endLine = false
 			letterIndex = 0
@@ -51,7 +55,9 @@ func main() {
 
 				if slices.Contains(lettersIndex, letterIndex) {
 					// asciiLine = handleFlag.GetColor() + asciiLine + "\033[0m"
-					result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
+
+					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
+					// result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
 				} else {
 					result = append(result, asciiLine)
 				}
@@ -59,8 +65,6 @@ func main() {
 				endLine = true
 
 				letterIndex++
-				// jffeessnxffee1
-				// jبeessnxبee1
 			}
 
 			if endLine {
@@ -101,5 +105,3 @@ func main() {
 		}
 	}
 }
-
-///find letters to be colored first index

@@ -2,7 +2,10 @@ package handleFlag
 
 import (
 	"fmt"
+	"io"
+	"net/http"
 	"os"
+	"strings"
 )
 
 var (
@@ -10,7 +13,7 @@ var (
 	isColor  = false
 
 	outputFile = ""
-	color      = ""
+	Color      = ""
 )
 
 // make sure only one flag is used
@@ -23,17 +26,17 @@ func IsValidFlag(myFlags []string) (bool, string, bool, string) {
 	}
 
 	/// check if the first is --color
-	isColor, color = checkIfColor(myFlags, 0)
+	isColor, Color = checkIfColor(myFlags, 0)
 	/// if the first is not --color
 	if !isColor && len(myFlags) >= 2 {
-		isColor, color = checkIfColor(myFlags, 1)
+		isColor, Color = checkIfColor(myFlags, 1)
 	}
 	if isOutput && isColor {
 		fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
 		os.Exit(1)
 	}
 
-	return isOutput, outputFile, isColor, color
+	return isOutput, outputFile, isColor, Color
 }
 
 func checkIfOutput(myFlags []string, argIndex int) (bool, string) {
@@ -62,19 +65,46 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 		}
 		isColor = true
 	}
+
+	if isColor {
+		if strings.Contains(color, "(") {
+			color = "\033[38;2;95;66;160m"
+		} else {
+			color = getANSIColor(color)
+		}
+	}
+
 	return isColor, color
 }
 
-// /return the color
-func GetColor() string {
-	return getColorANSI(color)
-}
-
-func getColorANSI(color string) string {
+func getANSIColor(color string) string {
 	colors := map[string]string{
-		"Reset": "\033[0m", "red": "\033[31m",
+		"red":   "\033[31m",
 		"green": "\033[32m", "yellow": "\033[33m", "blue": "\033[34m",
 		"magenta": "\033[35m", "cyan": "\033[36m", "gray": "\033[37m", "white": "\033[97m",
 	}
 	return colors[color]
+}
+
+func getRgbColor(rgbInput string) string {
+	fmt.Println(rgbInput)
+
+	return rgbInput
+}
+
+func getColor(color string) {
+	fmt.Println("getColor : ", color)
+	myUrl := "https://csscolorsapi.com/api/colors/" + color
+	// myUrl := "https://www.thecolorapi.com/scheme?rgb=0,71,171"
+	res, err := http.Get(myUrl)
+	if err != nil {
+		fmt.Println("err")
+	}
+
+	content, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println("err")
+		os.Exit(1)
+	}
+	fmt.Println("res:", string(content))
 }

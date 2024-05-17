@@ -8,9 +8,14 @@ import (
 	"example.moh/handleArgs"
 )
 
-func GetLines() ([]string, string, []int) {
+var (
+	LettersToColor string
+	RGBColor       string
+)
+
+func GetLines() ([]string, string) {
 	myArgs := os.Args[1:]
-	LettersIndex := []int{}
+
 	///handle args error
 	argsError, args := handleArgs.CheckArgs(myArgs)
 	if argsError != nil {
@@ -36,13 +41,15 @@ func GetLines() ([]string, string, []int) {
 			bannerFile = "../" + args[bannerIndex]
 		}
 	} else if args[len(args)-1] == "colorFlag" {
+		////
 		////if there is a color flag
 		bannerFile = "./Banners/standard.txt"
 		if len(args) == 3 {
+			fmt.Println("hi")
 			inputIndex = 1
 		} else if len(args) == 4 {
+			LettersToColor = args[1]
 			inputIndex = 2
-			LettersIndex = getLettersIndex(args[2], args[1])
 		}
 	} else {
 		if len(args) == 1 {
@@ -60,15 +67,15 @@ func GetLines() ([]string, string, []int) {
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
 		fmt.Println("Error :", bannerFile, "file not found")
-		return []string{}, "", []int{}
 
+		return []string{}, ""
 	}
 	lines := strings.Split(string(file), "\n")
 
-	return lines, args[inputIndex], LettersIndex
+	return lines, args[inputIndex]
 }
 
-func getLettersIndex(input string, letters string) []int {
+func GetLettersIndex(input string, letters string) []int {
 	var indexes []int
 	mm := strings.ReplaceAll(input, letters, "ب")
 	myInput := []rune(mm)
@@ -92,6 +99,6 @@ func getLettersIndex(input string, letters string) []int {
 			indexes = append(indexes, indexes[i]+j)
 		}
 	}
-
+	fmt.Println("indexes : ", indexes)
 	return indexes
 }

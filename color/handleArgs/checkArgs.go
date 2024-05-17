@@ -10,9 +10,8 @@ import (
 func CheckArgs(myArgs []string) (error, []string) {
 	isOutput := false
 	isColor := false
-
-	outputFile := ""
 	color := ""
+	outputFile := ""
 
 	if len(myArgs) < 1 || len(myArgs) > 3 {
 		return usageMessage(), []string{}
