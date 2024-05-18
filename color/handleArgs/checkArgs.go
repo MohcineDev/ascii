@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"path"
+	"regexp"
 
 	"example.moh/handleFlag"
 )
@@ -19,13 +20,15 @@ func CheckArgs(myArgs []string) (error, []string) {
 	}
 	///flag is output or color
 	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(myArgs)
-	fmt.Println("FLAGS : ", isOutput, isColor)
+
 	///////////  OUTPUT ////////
 	if len(myArgs) == 1 {
 		if isOutput {
 			return outputUsageMessage(), []string{}
 		} else if isColor {
 			///use color usage msg
+			return colorUsageMessage(), []string{}
+		} else if checkForDash(myArgs[0]) {
 			return colorUsageMessage(), []string{}
 		} else {
 			return nil, myArgs
@@ -38,14 +41,20 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs = append(myArgs, "validFlag")
 		} else if isColor {
 			///color flag
-
+			if !handleFlag.HasEqualSign {
+				return colorUsageMessage(), []string{}
+			}
 			if len(color) < 1 {
 				///Error : color not found!!!
 				return errors.New("Error : Color not found!!"), []string{}
 			}
+
 			myArgs = append(myArgs, "colorFlag")
 
+		} else if checkForDash(myArgs[0]) {
+			return colorUsageMessage(), []string{}
 		} else {
+			///there is only one dash
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
 	} else if len(myArgs) == 3 {
@@ -83,4 +92,12 @@ func getBannerFileName(Banner string) string {
 		Banner += ".txt"
 	}
 	return Banner
+}
+
+// /check if there is a dash at the beginning
+func checkForDash(flag string) bool {
+	r, _ := regexp.Compile("^-+")
+
+	fmt.Println(r.MatchString(flag))
+	return r.MatchString(flag)
 }

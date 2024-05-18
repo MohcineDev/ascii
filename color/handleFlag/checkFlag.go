@@ -13,8 +13,9 @@ var (
 	isOutput = false
 	isColor  = false
 
-	outputFile = ""
-	Color      = ""
+	outputFile   = ""
+	Color        = ""
+	HasEqualSign = false
 )
 
 // make sure only one flag is used
@@ -55,6 +56,9 @@ func checkIfOutput(myFlags []string, argIndex int) (bool, string) {
 	return output, outputFile
 }
 
+/*
+check if there is only one dash
+*/
 func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 	isColor := false
 	color := ""
@@ -62,6 +66,9 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 	if len(arg) >= 7 && arg[:7] == "--color" {
 		if len(arg) >= 8 {
 			color = arg[8:]
+		}
+		if len(arg) >= 8 && string(arg[7:8]) == "=" {
+			HasEqualSign = true
 		}
 		isColor = true
 	}
