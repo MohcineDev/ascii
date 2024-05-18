@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	LettersToColor string
-	RGBColor       string
+	LettersToColor  string
+	RGBColor        string
+	LettersProvided bool = true
 )
 
 func GetLines() ([]string, string) {
@@ -40,10 +41,13 @@ func GetLines() ([]string, string) {
 			bannerFile = "../" + args[bannerIndex]
 		}
 	} else if args[len(args)-1] == "colorFlag" {
+
 		////
 		////if there is a color flag
 		bannerFile = "./Banners/standard.txt"
 		if len(args) == 3 {
+			///no letterstocolor provided
+			LettersProvided = false
 			inputIndex = 1
 		} else if len(args) == 4 {
 			LettersToColor = args[1]
@@ -57,9 +61,10 @@ func GetLines() ([]string, string) {
 			/// fs projLettersIndex := ect // no flag
 			bannerFile = "../" + args[bannerIndex]
 		} else if len(args) >= 3 {
-			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+			// fs usage message
+			fmt.Println("Usage: go run . [STRING] [BANNER]\n\nEX: go run . something standard")
+			os.Exit(2)
 			// remove the last line
-			os.Exit(0)
 		}
 	}
 	file, err := os.ReadFile(bannerFile)
@@ -75,11 +80,11 @@ func GetLines() ([]string, string) {
 
 func GetLettersIndex(input string, letters string) []int {
 	var indexes []int
-	mm := strings.ReplaceAll(input, letters, "ب")
+	mm := strings.ReplaceAll(input, letters, "é")
 	myInput := []rune(mm)
 
 	for i, v := range myInput {
-		if v == 'ب' {
+		if v == 'é' {
 			indexes = append(indexes, i)
 		}
 	}

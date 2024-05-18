@@ -1,22 +1,113 @@
-# output
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
+</p>
 
-/*
-	###	if < 0 || > 2 +>>>> err msg
-	###	if == 1 add func if the flag is valid  //--- go run . --output=result.  txt "HELLO"
-			//y : save the result to the result.txt file using standard file format
-			//no : display the text in the terminal using the standard format
-	###	if == 2
-			//check if it's a valid flag
-				/// y : check if the second arg is a valid file format name
-				 	/// y : save the result to the result.txt file using specified file format
-					/// n : display err file not found
-				///n : display err file not found
-	*/
-	/*
-			   - or -- you decalre a flag
-			   // the flag is not counted it's handled by the flag.parse()
-			   //args are returned from the flag.Args() function
-		go run . //done
-		one arg
-		two args
-	*/
+<h3 align="center">ascii-art : color</h3>
+
+<div align="center">
+ 
+
+</div>
+
+---
+
+<p align="center"> Few lines describing your project.
+    <br> 
+    You must follow the same instructions as in the first subject but this time with colors.
+
+The output should manipulate colors using the flag --color=<color> <letters to be colored>, in which --color is the flag and <color> is the color desired by the user and <letters to be colored> is the letter or letters that you can chose to be colored. These colors can be achieved using different notations (color code systems, like RGB, hsl, ANSI...), it is up to you to choose which one you want to use.
+</p>
+
+## 📝 Table of Contents
+
+- [About](#about)
+- [Getting Started](#getting_started)
+- [Deployment](#deployment)
+- [Usage](#usage)
+- [Built Using](#built_using)
+- [TODO](../TODO.md)
+- [Contributing](../CONTRIBUTING.md)
+- [Authors](#authors)
+- [Acknowledgments](#acknowledgement)
+
+## 🧐 About <a name = "about"></a>
+
+Write about 1-2 paragraphs describing the purpose of your project.
+
+## 🏁 Getting Started <a name = "getting_started"></a>
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+What things you need to install the software and how to install them.
+
+```
+Give examples
+```
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running.
+
+Say what the step will be
+
+```
+Give the example
+```
+
+And repeat
+
+```
+until finished
+```
+
+End with an example of getting some data out of the system or using it for a little demo.
+
+## 🔧 Running the tests <a name = "tests"></a>
+
+Explain how to run the automated tests for this system.
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## 🎈 Usage <a name="usage"></a>
+
+Add notes about how to use the system.
+
+## 🚀 Deployment <a name = "deployment"></a>
+
+Add additional notes about how to deploy this on a live system.
+
+## ⛏️ Built Using <a name = "built_using"></a>
+
+- [MongoDB](https://www.mongodb.com/) - Database
+- [Express](https://expressjs.com/) - Server Framework
+- [VueJs](https://vuejs.org/) - Web Framework
+- [NodeJs](https://nodejs.org/en/) - Server Environment
+
+## ✍️ Authors <a name = "authors"></a>
+
+- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
+
+See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
+
+## 🎉 Acknowledgements <a name = "acknowledgement"></a>
+
+- Hat tip to anyone whose code was used
+- Inspiration
+- References

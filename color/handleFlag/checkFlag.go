@@ -36,7 +36,6 @@ func IsValidFlag(myFlags []string) (bool, string, bool, string) {
 		fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
 		os.Exit(1)
 	}
-
 	return isOutput, outputFile, isColor, Color
 }
 
@@ -91,6 +90,10 @@ func getANSIColor(color string) string {
 func getRgbColor(rgbInput string) string {
 	rgb := ""
 
+	if strings.ToLower(rgbInput[:4]) != "rgb(" || string(rgbInput[len(rgbInput)-1:]) != ")" {
+		fmt.Println("ERROR : COLOR NOT FOUND!!")
+		os.Exit(1)
+	}
 	fmt.Println("getRgbColor: ", rgbInput)
 
 	r, _ := regexp.Compile(`[0-9]+,[0-9]+,[0-9]+`)
