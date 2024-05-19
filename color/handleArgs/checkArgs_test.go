@@ -4,42 +4,35 @@ import (
 	"testing"
 )
 
-// /test with any args
+// /test with no arguments
 func TestCheckArgsNoArg(t *testing.T) {
-	myArgs := []string{}
-	err, _ := CheckArgs(myArgs)
-
-	if err != nil {
-		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
-	}
+	runTest(t, []string{})
 }
 
-// /test with one arg
+// /test with one arguments
 func TestCheckArgsOneArg(t *testing.T) {
-	myArgs := []string{""}
-	err, _ := CheckArgs(myArgs)
-
-	if err != nil {
-		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
-	}
+	runTest(t, []string{""})
 }
 
-// /test with two args
+// /test with two arguments
 func TestCheckArgsTwoArgs(t *testing.T) {
-	myArgs := []string{"de", "ddf"}
-	err, _ := CheckArgs(myArgs)
-
-	if err != nil {
-		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
-	}
+	runTest(t, []string{"de", "ddf"})
 }
 
-// /test with out more than two args
-func TestCheckArgsMoreThanTwoArgs(t *testing.T) {
-	myArgs := []string{"zz", "daz", "fsd"}
-	err, _ := CheckArgs(myArgs)
+// /test with three arguments
+func TestCheckArgsThreeArgs(t *testing.T) {
+	runTest(t, []string{"zz", "daz", "fsd"})
+}
+
+// /test with More thann three arguments
+func TestCheckArgsMoreThanThreeArgs(t *testing.T) {
+	runTest(t, []string{"zz", "daz", "fsd", "ds"})
+}
+
+func runTest(t *testing.T, args []string) {
+	err, _ := CheckArgs(args)
 
 	if err != nil {
-		t.Fatalf(`CheckArgs() = Usage: go run . [STRING] [BANNER] error`)
+		t.Fatalf(err.Error())
 	}
 }

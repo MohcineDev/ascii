@@ -62,7 +62,6 @@ func GetLines() ([]string, string) {
 			bannerFile = "../" + args[bannerIndex]
 		} else if len(args) >= 3 && string(args[0][0]) != "-" {
 
-			fmt.Println("args geline : ", args)
 			// fs usage message
 			fmt.Println("Usage: go run . [STRING] [BANNER]\n\nEX: go run . something standard")
 			os.Exit(2)

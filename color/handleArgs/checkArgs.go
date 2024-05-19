@@ -2,7 +2,6 @@ package handleArgs
 
 import (
 	"errors"
-	"fmt"
 	"path"
 	"regexp"
 
@@ -29,7 +28,11 @@ func CheckArgs(myArgs []string) (error, []string) {
 			///use color usage msg
 			return colorUsageMessage(), []string{}
 		} else if checkForDash(myArgs[0]) {
-			return colorUsageMessage(), []string{}
+			if checkForFlagType(myArgs[0]) {
+				return outputUsageMessage(), []string{}
+			} else {
+				return colorUsageMessage(), []string{}
+			}
 		} else {
 			return nil, myArgs
 		}
@@ -41,9 +44,9 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs = append(myArgs, "validFlag")
 		} else if isColor {
 			///color flag
-			if !handleFlag.HasEqualSign {
-				return colorUsageMessage(), []string{}
-			}
+			// if !handleFlag.HasEqualSign {
+			// 	return colorUsageMessage(), []string{}
+			// }
 			if len(color) < 1 {
 				///Error : color not found!!!
 				return errors.New("Error : Color not found!!"), []string{}
@@ -52,7 +55,11 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs = append(myArgs, "colorFlag")
 
 		} else if checkForDash(myArgs[0]) {
-			return colorUsageMessage(), []string{}
+			if checkForFlagType(myArgs[0]) {
+				return outputUsageMessage(), []string{}
+			} else {
+				return colorUsageMessage(), []string{}
+			}
 		} else {
 			///there is only one dash
 			myArgs[1] = getBannerFileName(myArgs[1])
@@ -69,7 +76,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 			if len(color) < 1 {
 				///Error : color not found!!!
-				return errors.New("Error : Color not found!!"), []string{}
+				return errors.New("Error : Color not found or not 00!!"), []string{}
 			}
 			myArgs = append(myArgs, "colorFlag")
 
@@ -98,6 +105,12 @@ func getBannerFileName(Banner string) string {
 func checkForDash(flag string) bool {
 	r, _ := regexp.Compile("^-+")
 
-	fmt.Println(r.MatchString(flag))
+	return r.MatchString(flag)
+}
+
+// check if the flag is output or color
+func checkForFlagType(flag string) bool {
+	r, _ := regexp.Compile("output")
+
 	return r.MatchString(flag)
 }

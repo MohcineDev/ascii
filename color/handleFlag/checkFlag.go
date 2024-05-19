@@ -13,9 +13,8 @@ var (
 	isOutput = false
 	isColor  = false
 
-	outputFile   = ""
-	Color        = ""
-	HasEqualSign = false
+	outputFile = ""
+	Color      = ""
 )
 
 // make sure only one flag is used
@@ -46,11 +45,12 @@ func checkIfOutput(myFlags []string, argIndex int) (bool, string) {
 	arg := myFlags[argIndex]
 
 	// handle out of range
-	if len(arg) >= 8 && arg[:8] == "--output" {
+	if len(arg) >= 9 && arg[:9] == "--output=" {
 		// if len(arg) >= 9 && arg[:9] == "--output=" || len(arg) >= 8 && arg[:8] == "--output" {
 		if len(arg) >= 9 {
 			outputFile = arg[9:]
 		}
+
 		output = true
 	}
 	return output, outputFile
@@ -63,13 +63,11 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 	isColor := false
 	color := ""
 	arg := myFlags[argIndex]
-	if len(arg) >= 7 && arg[:7] == "--color" {
+	if len(arg) >= 8 && arg[:8] == "--color=" {
 		if len(arg) >= 8 {
 			color = arg[8:]
 		}
-		if len(arg) >= 8 && string(arg[7:8]) == "=" {
-			HasEqualSign = true
-		}
+
 		isColor = true
 	}
 
@@ -101,8 +99,6 @@ func getRgbColor(rgbInput string) string {
 		fmt.Println("ERROR : COLOR NOT FOUND!!")
 		os.Exit(1)
 	}
-	fmt.Println("getRgbColor: ", rgbInput)
-
 	r, _ := regexp.Compile(`[0-9]+,[0-9]+,[0-9]+`)
 	onlyNbr := r.FindString(rgbInput)
 
@@ -110,7 +106,6 @@ func getRgbColor(rgbInput string) string {
 		rgb = "\033[38;2;" + strings.ReplaceAll(onlyNbr, ",", ";") + "m"
 	}
 
-	fmt.Println("rgb : ", rgb)
 	return rgb
 }
 

@@ -86,25 +86,18 @@ Give an example
 ```
 
 ## 🎈 Usage <a name="usage"></a>
-
-Add notes about how to use the system.
-
-## 🚀 Deployment <a name = "deployment"></a>
-
-Add additional notes about how to deploy this on a live system.
-
+#### The supported ANSI Colors : 
+	red, green, yellow, blue, magenta, cyan, gray, white, bright black, bright Red, bright Green, bright Yellow, bright blue, bright Magenta, bright Cyan
+	 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+- [Go](https://go.dev/) - High-level programming language 
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
+- [@MohcineDev](https://github.com/MohcineDev) - Initial work
 
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
+See also the list of [contributors]( ) who participated in this project.
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 

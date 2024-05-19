@@ -8,68 +8,71 @@ import (
 	"testing"
 )
 
+// / TODO
+// add func runTest
+
+func runTest(args []string, t *testing.T, file string) {
+	cmd := exec.Command("./main", args...)
+
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("execution error")
+	}
+	content, err := os.ReadFile(file)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	///if output doesn't equal the content of file / string
+	if !strings.EqualFold(string(content), string(output)) {
+		t.Fatalf("not equal")
+	}
+}
+
 func TestMainOneArg(t *testing.T) {
-	cmd := exec.Command("./output", "12")
-
-	output, _ := cmd.Output()
-	////---
-	content, err := os.ReadFile("./test/one.txt")
-	if err != nil {
-		t.Fatalf("error")
-	}
-	////---
-	fmt.Println(output)
-
-	if !strings.EqualFold(string(content), string(output)) {
-		t.Fatalf("not equal")
-	}
+	args := []string{"1"}
+	runTest(args, t, "./test/one.txt")
 }
 
+// /wrong banner file
 func TestMainTwoArgWrongFile(t *testing.T) {
-	cmd := exec.Command("./output", "1", "a")
-
-	output, _ := cmd.Output()
-	if !strings.EqualFold("Error : a.txt file not found\n", string(output)) {
-		t.Fatalf("not equal")
-	}
+	args := []string{"1", "o"}
+	runTest(args, t, "./test/wrongFile.txt")
 }
 
+// /correct banner file
 func TestMainTwoArgsCorrectFile(t *testing.T) {
-	cmd := exec.Command("./output", "A", "shadow")
+	args := []string{"A", "shadow"}
+	runTest(args, t, "./test/CorrectFile.txt")
+}
 
-	output, _ := cmd.Output()
+// /compare two files --output FLAG
+func runTestTwoFile(args []string, t *testing.T, srcfile string, resfile string) {
+	cmd := exec.Command("./main", args...)
+	cmd.Output()
 
-	content, err := os.ReadFile("./test/CorrectFile.txt")
-	if err != nil {
-		t.Fatalf("error")
+	src, srcErr := os.ReadFile(srcfile)
+	if srcErr != nil {
+		t.Fatalf(srcErr.Error())
+	}
+	res, resErr := os.ReadFile(resfile)
+	if resErr != nil {
+		t.Fatalf(resErr.Error())
 	}
 
-	if !strings.EqualFold(string(content), string(output)) {
+	///if output doesn't equal the content of file / string
+	if !strings.EqualFold(string(src), string(res)) {
 		t.Fatalf("not equal")
 	}
 }
 
 func TestMainTwoArgsCorrectFlag(t *testing.T) {
-	cmd := exec.Command("./output", "--output=res.txt", "shadow")
-
-	cmd.Output()
-
-	res, err := os.ReadFile("res.txt")
-	if err != nil {
-		t.Fatalf("error")
-	}
-	src, err0 := os.ReadFile("./test/CorrectFlag.txt")
-	if err0 != nil {
-		t.Fatalf("error")
-	}
-
-	if !strings.EqualFold(string(res), string(src)) {
-		t.Fatalf("not equal")
-	}
+	args := []string{"--output=res.txt", "shadow"}
+	runTestTwoFile(args, t, "./test/src.txt", "./res.txt")
 }
 
 func TestMainTwoArgsIncorrectFlag(t *testing.T) {
-	cmd := exec.Command("./output", "T", "thinkertoy")
+	cmd := exec.Command("./main", "-output=res.txt", "thinkertoy")
 
 	output, _ := cmd.Output()
 
@@ -86,7 +89,7 @@ func TestMainTwoArgsIncorrectFlag(t *testing.T) {
 /////THREE ARGS
 
 func TestMainThreeArgs(t *testing.T) {
-	cmd := exec.Command("./output", "--output=./test/threeArgs.txt", "Hello", "thinkertoy")
+	cmd := exec.Command("./main", "--output=./test/threeArgs.txt", "Hello", "thinkertoy")
 	cmd.Output()
 
 	res, err := os.ReadFile("./test/threeArgs.txt")
@@ -104,7 +107,7 @@ func TestMainThreeArgs(t *testing.T) {
 
 // more than 3 arguments
 func TestMainMoreThanThreeArgs(t *testing.T) {
-	cmd := exec.Command("./output", "--output=./test/four.txt", "Hello", "thinkertoy", "sz")
+	cmd := exec.Command("./main", "--output=./test/four.txt", "Hello", "thinkertoy", "sz")
 
 	output, _ := cmd.Output()
 

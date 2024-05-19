@@ -95,7 +95,7 @@ func main() {
 			fmt.Println(color)
 		}
 	} else if len(os.Args[1:]) >= 2 && isOutput {
-		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, " ")), 0o644)
+		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, "")), 0o644)
 		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
