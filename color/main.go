@@ -85,7 +85,6 @@ func main() {
 	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
 
 	if !isOutput {
-		// chosenColor := "\033[31m"
 		// print result
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])

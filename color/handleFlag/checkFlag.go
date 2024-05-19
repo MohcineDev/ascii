@@ -21,11 +21,9 @@ var (
 // return that flag and it's value
 func IsValidFlag(myFlags []string) (bool, string, bool, string) {
 	isOutput, outputFile = checkIfOutput(myFlags, 0)
-
 	if !isOutput && len(myFlags) >= 2 {
 		isOutput, outputFile = checkIfOutput(myFlags, 1)
 	}
-
 	/// check if the first is --color
 	isColor, Color = checkIfColor(myFlags, 0)
 	/// if the first is not --color

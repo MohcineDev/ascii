@@ -8,50 +8,49 @@ import (
 	"testing"
 )
 
-// / TODO
-// add func runTest
+var (
+	outputUsageMessage = "Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n"
+	colorUsageMessage  = "Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"\n"
+)
 
-func runTest(args []string, t *testing.T, file string) {
+func compareTwoStrings(args []string, t *testing.T, usageMsg string) {
 	cmd := exec.Command("./main", args...)
 
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("execution error")
 	}
-	content, err := os.ReadFile(file)
+	///if output doesn't equal the content of file / string
+	if !strings.EqualFold(usageMsg, string(output)) {
+		t.Fatalf("not equal")
+	}
+	fmt.Println("")
+}
+
+func CompareFileWithString(args []string, t *testing.T, file string) {
+	cmd := exec.Command("./main", args...)
+
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("execution error")
+	}
+	content, err := os.ReadFile("./test/" + file)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
-
 	///if output doesn't equal the content of file / string
 	if !strings.EqualFold(string(content), string(output)) {
 		t.Fatalf("not equal")
 	}
+	fmt.Println("")
 }
 
-func TestMainOneArg(t *testing.T) {
-	args := []string{"1"}
-	runTest(args, t, "./test/one.txt")
-}
-
-// /wrong banner file
-func TestMainTwoArgWrongFile(t *testing.T) {
-	args := []string{"1", "o"}
-	runTest(args, t, "./test/wrongFile.txt")
-}
-
-// /correct banner file
-func TestMainTwoArgsCorrectFile(t *testing.T) {
-	args := []string{"A", "shadow"}
-	runTest(args, t, "./test/CorrectFile.txt")
-}
-
-// /compare two files --output FLAG
-func runTestTwoFile(args []string, t *testing.T, srcfile string, resfile string) {
+// /compare tcolorwo files --output FLAG
+func compareTwoFiles(args []string, t *testing.T, srcfile string, resfile string) {
 	cmd := exec.Command("./main", args...)
 	cmd.Output()
 
-	src, srcErr := os.ReadFile(srcfile)
+	src, srcErr := os.ReadFile("./test/" + srcfile)
 	if srcErr != nil {
 		t.Fatalf(srcErr.Error())
 	}
@@ -64,56 +63,74 @@ func runTestTwoFile(args []string, t *testing.T, srcfile string, resfile string)
 	if !strings.EqualFold(string(src), string(res)) {
 		t.Fatalf("not equal")
 	}
+	fmt.Println("")
 }
+
+// ///////////
+// ///////////
+func TestMainOneArg(t *testing.T) {
+	args := []string{"1"}
+	CompareFileWithString(args, t, "one.txt")
+}
+
+// /wrong banner file
+func TestMainTwoArgWrongFile(t *testing.T) {
+	args := []string{"1", "ogreg"}
+	compareTwoStrings(args, t, "Error : ../ogreg.txt file not found\n")
+
+	// CompareFileWithString(args, t, "wrongFile.txt")
+}
+
+// /correct banner file
+func TestMainTwoArgsCorrectFile(t *testing.T) {
+	args := []string{"A", "shadow"}
+	CompareFileWithString(args, t, "CorrectFile.txt")
+}
+
+// //
 
 func TestMainTwoArgsCorrectFlag(t *testing.T) {
 	args := []string{"--output=res.txt", "shadow"}
-	runTestTwoFile(args, t, "./test/src.txt", "./res.txt")
+	compareTwoFiles(args, t, "src.txt", "res.txt")
 }
 
 func TestMainTwoArgsIncorrectFlag(t *testing.T) {
-	cmd := exec.Command("./main", "-output=res.txt", "thinkertoy")
-
-	output, _ := cmd.Output()
-
-	src, err0 := os.ReadFile("./test/IncorrectFlag.txt")
-	if err0 != nil {
-		t.Fatalf("error")
-	}
-
-	if !strings.EqualFold(string(output), string(src)) {
-		t.Fatalf("not equal")
-	}
+	args := []string{"-output=res.txt", "thinkertoy"}
+	compareTwoStrings(args, t, outputUsageMessage)
 }
 
 /////THREE ARGS
+// /TEST OUTPUT FLAG
 
 func TestMainThreeArgs(t *testing.T) {
-	cmd := exec.Command("./main", "--output=./test/threeArgs.txt", "Hello", "thinkertoy")
-	cmd.Output()
-
-	res, err := os.ReadFile("./test/threeArgs.txt")
-	if err != nil {
-		t.Fatalf("error")
-	}
-	result, err := os.ReadFile("./test/threeArgsResult.txt")
-	if err != nil {
-		t.Fatalf("error")
-	}
-	if !strings.EqualFold(string(result), string(res)) {
-		t.Fatalf("not equal")
-	}
+	args := []string{"--output=./res/threeArgsResult.txt", "Hello", "thinkertoy"}
+	compareTwoFiles(args, t, "threeArgs.txt", "threeArgsResult.txt")
 }
 
 // more than 3 arguments
 func TestMainMoreThanThreeArgs(t *testing.T) {
-	cmd := exec.Command("./main", "--output=./test/four.txt", "Hello", "thinkertoy", "sz")
+	args := []string{"--output=four.txt", "Hello", "thinkertoy", "sz"}
+	// 1 - args - 3 default display colorUsageMessage
+	compareTwoStrings(args, t, colorUsageMessage)
+}
 
-	output, _ := cmd.Output()
+// /TEST COLOR FLAG
+func TestMainValidFlag(t *testing.T) {
+	args := []string{"--color=red", "1"}
+	CompareFileWithString(args, t, "one.txt")
+}
 
-	usageMsg := "Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard\n"
+func TestMainInvalidFlag(t *testing.T) {
+	args := []string{"-color=red", "hello"}
+	compareTwoStrings(args, t, colorUsageMessage)
+}
 
-	if !strings.EqualFold(usageMsg, string(output)) {
-		t.Fatalf("error")
-	}
+func TestMainInvalidFlag0(t *testing.T) {
+	args := []string{"--clor=red", "hello"}
+	compareTwoStrings(args, t, colorUsageMessage)
+}
+
+func TestMainInvalidFlag1(t *testing.T) {
+	args := []string{"--color+red", "hello"}
+	compareTwoStrings(args, t, colorUsageMessage)
 }
