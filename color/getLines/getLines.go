@@ -89,6 +89,7 @@ func GetLettersIndex(input string, letters string) []int {
 			indexes = append(indexes, i)
 		}
 	}
+
 	if len(indexes) > 1 {
 		for i := 1; i < len(indexes); i++ {
 			indexes[i] += len(letters) - 1
@@ -97,6 +98,7 @@ func GetLettersIndex(input string, letters string) []int {
 	}
 
 	a := len(indexes)
+
 	for i := 0; i < a; i++ {
 		for j := 1; j < len(letters); j++ {
 			indexes = append(indexes, indexes[i]+j)
