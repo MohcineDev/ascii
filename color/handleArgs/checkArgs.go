@@ -49,7 +49,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 			// }
 			if len(color) < 1 {
 				///Error : color not found!!!
-				return errors.New("Error : Color not found!!"), []string{}
+				return errors.New("CheckArgs Error : Color not found!!"), []string{}
 			}
 
 			myArgs = append(myArgs, "colorFlag")
@@ -76,7 +76,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 			if len(color) < 1 {
 				///Error : color not found!!!
-				return errors.New("Error : Color not found or not 00!!"), []string{}
+				return errors.New("CheckArgs Error : Color not found!!"), []string{}
 			}
 			myArgs = append(myArgs, "colorFlag")
 

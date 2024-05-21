@@ -20,6 +20,7 @@ func compareTwoStrings(args []string, t *testing.T, usageMsg string) {
 	if err != nil {
 		fmt.Println("execution error")
 	}
+
 	///if output doesn't equal the content of file / string
 	if !strings.EqualFold(usageMsg, string(output)) {
 		t.Fatalf("not equal")
@@ -54,7 +55,7 @@ func compareTwoFiles(args []string, t *testing.T, srcfile string, resfile string
 	if srcErr != nil {
 		t.Fatalf(srcErr.Error())
 	}
-	res, resErr := os.ReadFile(resfile)
+	res, resErr := os.ReadFile("./test/res/" + resfile)
 	if resErr != nil {
 		t.Fatalf(resErr.Error())
 	}
@@ -90,12 +91,12 @@ func TestMainTwoArgsCorrectFile(t *testing.T) {
 // //
 
 func TestMainTwoArgsCorrectFlag(t *testing.T) {
-	args := []string{"--output=res.txt", "shadow"}
+	args := []string{"--output=./test/res/res.txt", "shadow"}
 	compareTwoFiles(args, t, "src.txt", "res.txt")
 }
 
 func TestMainTwoArgsIncorrectFlag(t *testing.T) {
-	args := []string{"-output=res.txt", "thinkertoy"}
+	args := []string{"-output=./test/res/res.txt", "thinkertoy"}
 	compareTwoStrings(args, t, outputUsageMessage)
 }
 
@@ -103,13 +104,13 @@ func TestMainTwoArgsIncorrectFlag(t *testing.T) {
 // /TEST OUTPUT FLAG
 
 func TestMainThreeArgs(t *testing.T) {
-	args := []string{"--output=./res/threeArgsResult.txt", "Hello", "thinkertoy"}
+	args := []string{"--output=./test/res/threeArgsResult.txt", "Hello", "thinkertoy"}
 	compareTwoFiles(args, t, "threeArgs.txt", "threeArgsResult.txt")
 }
 
 // more than 3 arguments
 func TestMainMoreThanThreeArgs(t *testing.T) {
-	args := []string{"--output=four.txt", "Hello", "thinkertoy", "sz"}
+	args := []string{"--output=./test/res/four.txt", "Hello", "thinkertoy", "sz"}
 	// 1 - args - 3 default display colorUsageMessage
 	compareTwoStrings(args, t, colorUsageMessage)
 }

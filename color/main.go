@@ -82,8 +82,8 @@ func main() {
 
 	outputFile := ""
 	color := ""
-	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
-
+	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
+	isOutput, isColor, outputFile, color = handleFlag.IsOutput, handleFlag.IsColor, handleFlag.OutputFile, handleFlag.Color
 	if !isOutput {
 		// print result
 		for i := 0; i < len(result); i++ {

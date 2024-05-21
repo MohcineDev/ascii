@@ -31,7 +31,7 @@ func GetLines() ([]string, string) {
 	///if the flag is valid add "validFlag" to the end of the args slice on the checkArgs function
 	if args[len(args)-1] == "validFlag" {
 		if len(args) == 2 { // args = [flag, text, "validFlag"]
-			bannerFile = "../standard.txt"
+			bannerFile = "./Banners/standard.txt"
 		} else if len(args) == 3 {
 			inputIndex = 1
 			bannerFile = "./Banners/standard.txt"
@@ -55,7 +55,7 @@ func GetLines() ([]string, string) {
 		}
 	} else {
 		if len(args) == 1 {
-			bannerFile = "../standard.txt"
+			bannerFile = "./Banners/standard.txt"
 		} else if len(args) == 2 {
 			bannerIndex = 1
 			/// fs projLettersIndex := ect // no flag
@@ -90,18 +90,19 @@ func GetLettersIndex(input string, letters string) []int {
 		}
 	}
 
-	if len(indexes) > 1 {
+	///if there is an index
+	if len(indexes) > 0 {
 		for i := 1; i < len(indexes); i++ {
 			indexes[i] += len(letters) - 1
 			fmt.Println("i : ", indexes[i])
 		}
-	}
 
-	a := len(indexes)
+		a := len(indexes)
 
-	for i := 0; i < a; i++ {
-		for j := 1; j < len(letters); j++ {
-			indexes = append(indexes, indexes[i]+j)
+		for i := 0; i < a; i++ {
+			for j := 1; j < len(letters); j++ {
+				indexes = append(indexes, indexes[i]+j)
+			}
 		}
 	}
 
