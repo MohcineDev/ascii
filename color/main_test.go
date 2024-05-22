@@ -32,6 +32,7 @@ func CompareFileWithString(args []string, t *testing.T, file string) {
 	cmd := exec.Command("./main", args...)
 
 	output, err := cmd.Output()
+
 	if err != nil {
 		fmt.Println("execution error")
 	}
@@ -39,6 +40,7 @@ func CompareFileWithString(args []string, t *testing.T, file string) {
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
+
 	///if output doesn't equal the content of file / string
 	if !strings.EqualFold(string(content), string(output)) {
 		t.Fatalf("not equal")

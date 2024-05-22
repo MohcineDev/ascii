@@ -102,7 +102,6 @@ func getANSIColor(color string) string {
 func getRgbColor(colorValue string) string {
 	// getColor("451263")
 	rgb := ""
-	fmt.Println("colo : ", colorValue[:1])
 	if len(colorValue) >= 4 && strings.ToLower(colorValue[:4]) == "rgb(" && string(colorValue[len(colorValue)-1:]) == ")" {
 		rgb = formatRGBToAnsi(colorValue)
 	} else if colorValue[:1] == "#" {
