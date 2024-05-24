@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"slices"
+	"strconv"
 	"strings"
 
 	"example.moh/getLines"
@@ -21,6 +22,9 @@ func main() {
 	endLine := false
 	count := 0
 	var lettersIndex []int
+	///line width to use for justify project
+	lineWidth := 0
+
 	getTerminalWidth()
 	lines, input := getLines.GetLines()
 
@@ -52,6 +56,11 @@ func main() {
 				asciiLine := lines[s+i]
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+				//collect letters length for justify project
+				if i == 1 {
+
+					lineWidth += len(asciiLine)
+				}
 
 				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
 					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
@@ -103,9 +112,18 @@ func main() {
 	}
 }
 
-func getTerminalWidth() {
-	cmd := exec.Command("stty", "size")
+func getTerminalWidth() int {
+	// cmd := exec.Command("stty", "size")
+	cmd := exec.Command("tput", "cols")
+
 	cmd.Stdin = os.Stdin
 	out, _ := cmd.Output()
-	fmt.Println("out : ", string(out))
+	w, _ := strconv.Atoi(string(out))
+	return w
+}
+
+func printSpaces(width int) {
+	for i := 0; i < width; i++ {
+		fmt.Print(" ")
+	}
 }
