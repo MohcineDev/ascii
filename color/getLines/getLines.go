@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"example.moh/handleArgs"
+	"example.moh/handleFlag"
 )
 
 var (
@@ -27,29 +28,27 @@ func GetLines() ([]string, string) {
 	bannerFile := ""
 	inputIndex := 0
 	bannerIndex := 0
-
-	///if the flag is valid add "validFlag" to the end of the args slice on the checkArgs function
-	if args[len(args)-1] == "validFlag" {
-		if len(args) == 2 { // args = [flag, text, "validFlag"]
+	//	fmt.Println("GetLines args :", args, len(args))
+	///if the flag is valid IsOutput = true
+	if handleFlag.IsOutput {
+		if len(args) == 1 { // args = [flag, text ]
 			bannerFile = "./Banners/standard.txt"
-		} else if len(args) == 3 {
+		} else if len(args) == 2 {
 			inputIndex = 1
 			bannerFile = "./Banners/standard.txt"
-		} else if len(args) == 4 {
+		} else if len(args) == 3 {
 			bannerIndex = 2
 			inputIndex = 1
 			bannerFile = "../" + args[bannerIndex]
 		}
-	} else if args[len(args)-1] == "colorFlag" {
-
-		////
+	} else if handleFlag.IsColor {
 		////if there is a color flag
 		bannerFile = "./Banners/standard.txt"
-		if len(args) == 3 {
+		if len(args) == 2 {
 			///no letterstocolor provided
 			LettersProvided = false
 			inputIndex = 1
-		} else if len(args) == 4 {
+		} else if len(args) == 3 {
 			LettersToColor = args[1]
 			inputIndex = 2
 		}
@@ -70,7 +69,7 @@ func GetLines() ([]string, string) {
 	}
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
-		fmt.Println("Error :", bannerFile, "file not found")
+		fmt.Println("aError :", bannerFile, "file not found")
 
 		return []string{}, ""
 	}
@@ -81,6 +80,7 @@ func GetLines() ([]string, string) {
 
 func GetLettersIndex(input string, letters string) []int {
 	var indexes []int
+	///replace letters to color with one char for easier search
 	mm := strings.ReplaceAll(input, letters, "é")
 	myInput := []rune(mm)
 

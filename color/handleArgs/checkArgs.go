@@ -37,22 +37,18 @@ func CheckArgs(myArgs []string) (error, []string) {
 			return nil, myArgs
 		}
 	} else if len(myArgs) == 2 {
+
 		if isOutput {
 			if len(outputFile) < 1 {
 				return outputUsageMessage(), []string{}
 			}
-			myArgs = append(myArgs, "validFlag")
+
 		} else if isColor {
 			///color flag
-			// if !handleFlag.HasEqualSign {
-			// 	return colorUsageMessage(), []string{}
-			// }
 			if len(color) < 1 {
 				///Error : color not found!!!
-				return errors.New("CheckArgs Error : Color not found!!"), []string{}
+				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
-
-			myArgs = append(myArgs, "colorFlag")
 
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
@@ -65,8 +61,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
 	} else if len(myArgs) == 3 {
+
 		if isOutput {
-			myArgs = append(myArgs, "validFlag")
 			if len(outputFile) < 1 {
 				return outputUsageMessage(), []string{}
 			}
@@ -76,10 +72,15 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 			if len(color) < 1 {
 				///Error : color not found!!!
-				return errors.New("CheckArgs Error : Color not found!!"), []string{}
+				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
-			myArgs = append(myArgs, "colorFlag")
 
+		} else if checkForDash(myArgs[0]) {
+			if checkForFlagType(myArgs[0]) {
+				return outputUsageMessage(), []string{}
+			} else {
+				return colorUsageMessage(), []string{}
+			}
 		}
 	}
 
