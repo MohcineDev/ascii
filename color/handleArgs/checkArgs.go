@@ -8,6 +8,11 @@ import (
 	"example.moh/handleFlag"
 )
 
+var usageMsgs = map[string]error{
+	"color":  errors.New("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\""),
+	"output": errors.New("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard"),
+}
+
 func CheckArgs(myArgs []string) (error, []string) {
 	isOutput := false
 	isColor := false
@@ -15,7 +20,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 	outputFile := ""
 
 	if len(myArgs) < 1 || len(myArgs) > 3 {
-		return colorUsageMessage(), []string{}
+		return usageMsgs["color"], []string{}
 	}
 	///flag is output or color
 	isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(myArgs)
@@ -23,15 +28,15 @@ func CheckArgs(myArgs []string) (error, []string) {
 	///////////  OUTPUT ////////
 	if len(myArgs) == 1 {
 		if isOutput {
-			return outputUsageMessage(), []string{}
+			return usageMsgs["output"], []string{}
 		} else if isColor {
 			///use color usage msg
-			return colorUsageMessage(), []string{}
+			return usageMsgs["color"], []string{}
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
-				return outputUsageMessage(), []string{}
+				return usageMsgs["output"], []string{}
 			} else {
-				return colorUsageMessage(), []string{}
+				return usageMsgs["color"], []string{}
 			}
 		} else {
 			return nil, myArgs
@@ -40,7 +45,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 		if isOutput {
 			if len(outputFile) < 1 {
-				return outputUsageMessage(), []string{}
+				return usageMsgs["output"], []string{}
 			}
 
 		} else if isColor {
@@ -52,9 +57,9 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
-				return outputUsageMessage(), []string{}
+				return usageMsgs["output"], []string{}
 			} else {
-				return colorUsageMessage(), []string{}
+				return usageMsgs["color"], []string{}
 			}
 		} else {
 			///there is only one dash
@@ -64,7 +69,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 		if isOutput {
 			if len(outputFile) < 1 {
-				return outputUsageMessage(), []string{}
+				return usageMsgs["output"], []string{}
 			}
 			myArgs[2] = getBannerFileName(myArgs[2])
 			///color flag
@@ -77,22 +82,14 @@ func CheckArgs(myArgs []string) (error, []string) {
 
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
-				return outputUsageMessage(), []string{}
+				return usageMsgs["output"], []string{}
 			} else {
-				return colorUsageMessage(), []string{}
+				return usageMsgs["color"], []string{}
 			}
 		}
 	}
 
 	return nil, myArgs
-}
-
-func colorUsageMessage() error {
-	return errors.New("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
-}
-
-func outputUsageMessage() error {
-	return errors.New("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
 }
 
 func getBannerFileName(Banner string) string {

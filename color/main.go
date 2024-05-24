@@ -54,7 +54,6 @@ func main() {
 
 				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
 					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
-					// result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
 				} else {
 					result = append(result, asciiLine)
 				}
@@ -77,24 +76,15 @@ func main() {
 
 	}
 	//////////////// O U T P U T ///////////////////
-	isOutput := false
-	isColor := false
 
-	outputFile := ""
-	color := ""
-	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
-	isOutput, isColor, outputFile, color = handleFlag.IsOutput, handleFlag.IsColor, handleFlag.OutputFile, handleFlag.Color
-	if !isOutput {
+	if !handleFlag.IsOutput {
 		// print result
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])
 		}
 
-		if isColor {
-			fmt.Println(color)
-		}
-	} else if len(os.Args[1:]) >= 2 && isOutput {
-		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, "")), 0o644)
+	} else if len(os.Args[1:]) >= 2 && handleFlag.IsOutput {
+		writingErr := os.WriteFile(handleFlag.OutputFile, []byte(strings.Join(result, "")), 0o644)
 		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
