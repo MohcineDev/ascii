@@ -57,7 +57,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 			}
 		} else if handleFlag.IsAlign {
 			if len(handleFlag.Alignment) < 1 {
-				fmt.Println("hello")
+
 				return usageMsgs["align"], []string{}
 			}
 		} else if checkForDash(myArgs[0]) {

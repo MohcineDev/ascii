@@ -23,6 +23,144 @@ func main() {
 	count := 0
 	var lettersIndex []int
 	///line width to use for justify project
+
+	terminalWidth := getTerminalWidth()
+	lines, input := getLines.GetLines()
+
+	words := strings.Split(input, "\\n")
+	newLineCount := strings.Count(input, "\\n")
+
+	if len(input) == 0 {
+		return
+	}
+	handleFlag.IsAlign = true
+	/// to display correctly in the file
+	result = append(result, "")
+	letterIndex := 0
+	//get word length using style
+	for a := 0; a < len(words); a++ {
+		lineWidth := getLineWidth(words[a], lines)
+		if len(getLines.LettersToColor) >= 1 {
+			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
+		}
+
+		for i := 1; i < 9; i++ {
+			if handleFlag.IsAlign {
+
+				printSpaces(terminalWidth - lineWidth)
+			}
+
+			endLine = false
+			letterIndex = 0
+
+			for _, char := range words[a] {
+				if int(char) < 32 || int(char) > 126 {
+					fmt.Println("Error : char '", string(char), "' not found!!")
+					// return
+					os.Exit(1)
+				}
+				s := (int(char) - 32) * 9
+
+				asciiLine := lines[s+i]
+				///for the third file
+				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+
+				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
+					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
+					// result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
+				} else {
+
+					result = append(result, asciiLine)
+				}
+				fmt.Print(asciiLine)
+
+				endLine = true
+				letterIndex++
+			}
+			if handleFlag.IsAlign {
+				fmt.Print("\n")
+			}
+
+			if endLine {
+				result = append(result, "\n")
+			}
+
+		}
+
+		if count < newLineCount && words[a] == "" {
+			result = append(result, "\n")
+			count++
+		}
+
+	}
+	//////////////// O U T P U T ///////////////////
+	/*
+	                     mm
+	            mm
+	   mm      mmm       mm
+	   mm                  */
+
+	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
+	if !handleFlag.IsOutput && !handleFlag.IsAlign {
+		// print result
+		for i := 0; i < len(result); i++ {
+			fmt.Print(result[i])
+		}
+
+	} else if len(os.Args[1:]) >= 2 && handleFlag.IsOutput {
+		writingErr := os.WriteFile(handleFlag.OutputFile, []byte(strings.Join(result, "")), 0o644)
+		////IF THERE IS AN ERROR WRITING THE FILE! EX :
+		if writingErr != nil {
+			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
+		}
+	}
+}
+
+func getTerminalWidth() int {
+	// cmd := exec.Command("stty", "size")
+	cmd := exec.Command("tput", "cols")
+
+	cmd.Stdin = os.Stdin
+	out, _ := cmd.Output()
+	w, err := strconv.Atoi(string(out)[:len(string(out))-1])
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("getTerminalWidth : ", w)
+	return w
+}
+
+func printSpaces(width int) {
+	for i := 0; i < width; i++ {
+		fmt.Print("-")
+	}
+}
+
+func getLineWidth(word string, lines []string) int {
+	i := 1
+	lineWidth := 0
+	for _, char := range word {
+
+		s := (int(char) - 32) * 9
+
+		lineWidth += len(lines[s+i])
+		i++
+		if i == 9 {
+			i = 1
+		}
+	}
+	fmt.Println("lineWidth : ", lineWidth)
+	return lineWidth
+}
+
+/*
+
+func main() {
+	var result []string
+	endLine := false
+	count := 0
+	var lettersIndex []int
+	///line width to use for justify project
 	lineWidth := 0
 
 	getTerminalWidth()
@@ -41,7 +179,11 @@ func main() {
 		if len(getLines.LettersToColor) >= 1 {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
+
 		for i := 1; i < 9; i++ {
+			if handleFlag.IsAlign {
+				printSpaces(getTerminalWidth() - lineWidth)
+			}
 			endLine = false
 			letterIndex = 0
 
@@ -59,19 +201,28 @@ func main() {
 				//collect letters length for justify project
 				if i == 1 {
 
-					lineWidth += len(asciiLine)
+					lineWidth += len(lines[s+3])
 				}
 
 				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
 					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
 					// result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
 				} else {
-					result = append(result, asciiLine)
+					if handleFlag.IsAlign {
+
+						fmt.Print(asciiLine)
+					} else {
+
+						result = append(result, asciiLine)
+					}
 				}
 
 				endLine = true
-
 				letterIndex++
+			}
+			if handleFlag.IsAlign {
+
+				fmt.Print("\n")
 			}
 
 			if endLine {
@@ -87,24 +238,22 @@ func main() {
 
 	}
 	//////////////// O U T P U T ///////////////////
-	isOutput := false
-	isColor := false
 
-	outputFile := ""
-	color := ""
 	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
-	isOutput, isColor, outputFile, color = handleFlag.IsOutput, handleFlag.IsColor, handleFlag.OutputFile, handleFlag.Color
-	if !isOutput {
+	if !handleFlag.IsOutput && !handleFlag.IsAlign {
 		// print result
 		for i := 0; i < len(result); i++ {
+
+			//1 of the last new line
+			if result[i] != "\n" {
+				printSpaces(getTerminalWidth() - lineWidth)
+
+			}
 			fmt.Print(result[i])
 		}
 
-		if isColor {
-			fmt.Println(color)
-		}
-	} else if len(os.Args[1:]) >= 2 && isOutput {
-		writingErr := os.WriteFile(outputFile, []byte(strings.Join(result, "")), 0o644)
+	} else if len(os.Args[1:]) >= 2 && handleFlag.IsOutput {
+		writingErr := os.WriteFile(handleFlag.OutputFile, []byte(strings.Join(result, "")), 0o644)
 		////IF THERE IS AN ERROR WRITING THE FILE! EX :
 		if writingErr != nil {
 			fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
@@ -112,18 +261,4 @@ func main() {
 	}
 }
 
-func getTerminalWidth() int {
-	// cmd := exec.Command("stty", "size")
-	cmd := exec.Command("tput", "cols")
-
-	cmd.Stdin = os.Stdin
-	out, _ := cmd.Output()
-	w, _ := strconv.Atoi(string(out))
-	return w
-}
-
-func printSpaces(width int) {
-	for i := 0; i < width; i++ {
-		fmt.Print(" ")
-	}
-}
+*/

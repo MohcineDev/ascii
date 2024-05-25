@@ -71,7 +71,7 @@ func GetLines() ([]string, string) {
 		}
 	}
 	file, err := os.ReadFile(bannerFile)
-	fmt.Println("bannerFile : ", bannerFile)
+
 	if err != nil {
 		fmt.Println("aError :", args[bannerIndex], "file not found")
 
