@@ -32,9 +32,9 @@ func main() {
 	if len(input) == 0 {
 		return
 	}
-	handleFlag.IsAlign = true
-	center := true
-	justify := true
+
+	fmt.Printf("is align  : %v , alignment : %s", handleFlag.IsAlign, handleFlag.Alignment)
+	fmt.Println("")
 	/// to display correctly in the file
 	result = append(result, "")
 	letterIndex := 0
@@ -45,23 +45,23 @@ func main() {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
 		wordsBySpace := []string{}
-		if justify {
+		if handleFlag.IsAlign && handleFlag.Alignment == "justify" {
 
 			wordsBySpace = strings.Split(words[a], " ")
 			fmt.Println(wordsBySpace)
 		} else {
 			wordsBySpace = []string{words[a]}
 		}
-		if len(wordsBySpace) > 1 {
+		// if len(wordsBySpace) > 1 {
 
-		}
+		// }
 		for i := 1; i < 9; i++ {
-			if handleFlag.IsAlign && !center {
+			if handleFlag.IsAlign && handleFlag.Alignment == "right" {
 
 				printSpaces(terminalWidth - lineWidth)
 			}
 			///center
-			if handleFlag.IsAlign && !center && !justify {
+			if handleFlag.IsAlign && handleFlag.Alignment == "center" {
 
 				printSpaces((terminalWidth - lineWidth) / 2)
 			}
@@ -69,7 +69,7 @@ func main() {
 			endLine = false
 			letterIndex = 0
 			for j := 0; j < len(wordsBySpace); j++ {
-				if handleFlag.IsAlign && justify {
+				if handleFlag.IsAlign && handleFlag.Alignment == "justify" {
 					if j > 0 {
 						printSpaces((terminalWidth - lineWidth) / (len(wordsBySpace) - 1))
 					}
@@ -92,7 +92,9 @@ func main() {
 
 						result = append(result, asciiLine)
 					}
-					fmt.Print(asciiLine)
+					if handleFlag.IsAlign {
+						fmt.Print(asciiLine)
+					}
 
 					endLine = true
 					letterIndex++
@@ -125,6 +127,7 @@ func main() {
 
 	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
 	if !handleFlag.IsOutput && !handleFlag.IsAlign {
+		fmt.Println("1312")
 		// print result
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])
@@ -149,7 +152,6 @@ func getTerminalWidth() int {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("getTerminalWidth : ", w)
 	return w
 }
 
@@ -175,7 +177,6 @@ func getLineWidth(word string, lines []string) int {
 			i = 1
 		}
 	}
-	fmt.Println("lineWidth : ", lineWidth)
 	return lineWidth
 }
 
