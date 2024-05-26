@@ -22,19 +22,11 @@ var (
 // return that flag and it's value
 func IsValidFlag(myFlags []string) (bool, string, bool, string) {
 	IsOutput, OutputFile = checkIfOutput(myFlags, 0)
-	if !IsOutput && len(myFlags) >= 2 {
-		IsOutput, OutputFile = checkIfOutput(myFlags, 1)
-	}
+
 	/// check if the first is --color
 	IsColor, Color = checkIfColor(myFlags, 0)
 	/// if the first is not --color
-	if !IsColor && len(myFlags) >= 2 {
-		IsColor, Color = checkIfColor(myFlags, 1)
-	}
-	if IsOutput && IsColor {
-		fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
-		os.Exit(1)
-	}
+
 	return IsOutput, OutputFile, IsColor, Color
 }
 
@@ -63,9 +55,7 @@ func checkIfColor(myFlags []string, argIndex int) (bool, string) {
 	color := ""
 	arg := myFlags[argIndex]
 	if len(arg) >= 8 && arg[:8] == "--color=" {
-		if len(arg) >= 8 {
-			color = arg[8:]
-		}
+		color = arg[8:]
 
 		isColor = true
 	}

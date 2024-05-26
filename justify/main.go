@@ -26,7 +26,6 @@ func main() {
 
 	terminalWidth := getTerminalWidth()
 	lines, input := getLines.GetLines()
-
 	words := strings.Split(input, "\\n")
 	newLineCount := strings.Count(input, "\\n")
 
@@ -34,6 +33,8 @@ func main() {
 		return
 	}
 	handleFlag.IsAlign = true
+	center := true
+	justify := true
 	/// to display correctly in the file
 	result = append(result, "")
 	letterIndex := 0
@@ -43,39 +44,59 @@ func main() {
 		if len(getLines.LettersToColor) >= 1 {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
+		wordsBySpace := []string{}
+		if justify {
 
+			wordsBySpace = strings.Split(words[a], " ")
+			fmt.Println(wordsBySpace)
+		} else {
+			wordsBySpace = []string{words[a]}
+		}
+		if len(wordsBySpace) > 1 {
+
+		}
 		for i := 1; i < 9; i++ {
-			if handleFlag.IsAlign {
+			if handleFlag.IsAlign && !center {
 
 				printSpaces(terminalWidth - lineWidth)
+			}
+			///center
+			if handleFlag.IsAlign && !center && !justify {
+
+				printSpaces((terminalWidth - lineWidth) / 2)
 			}
 
 			endLine = false
 			letterIndex = 0
-
-			for _, char := range words[a] {
-				if int(char) < 32 || int(char) > 126 {
-					fmt.Println("Error : char '", string(char), "' not found!!")
-					// return
-					os.Exit(1)
+			for j := 0; j < len(wordsBySpace); j++ {
+				if handleFlag.IsAlign && justify {
+					if j > 0 {
+						printSpaces((terminalWidth - lineWidth) / (len(wordsBySpace) - 1))
+					}
 				}
-				s := (int(char) - 32) * 9
+				for _, char := range wordsBySpace[j] {
+					if int(char) < 32 || int(char) > 126 {
+						fmt.Println("Error : char '", string(char), "' not found!!")
+						// return
+						os.Exit(1)
+					}
+					s := (int(char) - 32) * 9
 
-				asciiLine := lines[s+i]
-				///for the third file
-				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+					asciiLine := lines[s+i]
+					///for the third file
+					asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 
-				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
-					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
-					// result = append(result, handleFlag.GetColor()+asciiLine+"\033[0m")
-				} else {
+					if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
+						result = append(result, handleFlag.Color+asciiLine+"\033[0m")
+					} else {
 
-					result = append(result, asciiLine)
+						result = append(result, asciiLine)
+					}
+					fmt.Print(asciiLine)
+
+					endLine = true
+					letterIndex++
 				}
-				fmt.Print(asciiLine)
-
-				endLine = true
-				letterIndex++
 			}
 			if handleFlag.IsAlign {
 				fmt.Print("\n")
@@ -98,6 +119,8 @@ func main() {
 	                     mm
 	            mm
 	   mm      mmm       mm
+	   mm   mm    mmm    mm
+	   terminal size / len(word / " ")-1 =  3
 	   mm                  */
 
 	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
@@ -139,6 +162,9 @@ func printSpaces(width int) {
 func getLineWidth(word string, lines []string) int {
 	i := 1
 	lineWidth := 0
+	if true {
+		word = strings.ReplaceAll(word, " ", "")
+	}
 	for _, char := range word {
 
 		s := (int(char) - 32) * 9

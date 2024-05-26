@@ -89,14 +89,25 @@ func GetLettersIndex(input string, letters string) []int {
 			indexes = append(indexes, i)
 		}
 	}
-
+	fmt.Println("indexes  : ", indexes)
 	///if there is an index
 	if len(indexes) > 0 {
+		b := 0
 		for i := 1; i < len(indexes); i++ {
-			indexes[i] += len(letters) - 1
-			fmt.Println("i : ", indexes[i])
-		}
 
+			if i > 1 {
+				indexes[i] += len(letters) - 1 + b
+
+			} else {
+
+				indexes[i] += len(letters) - 1
+			}
+			///3  8  14 18
+
+			fmt.Println("i : ", indexes[i])
+			b++
+		}
+		fmt.Println("new indexes : ", indexes)
 		a := len(indexes)
 
 		for i := 0; i < a; i++ {
