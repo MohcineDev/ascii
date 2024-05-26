@@ -21,30 +21,26 @@ var (
 // make sure only one flag is used
 // return that flag and it's value
 func IsValidFlag(myFlags []string) (bool, string, bool, string) {
-	IsOutput, OutputFile = checkIfOutput(myFlags, 0)
+	checkIfOutput(myFlags, 0)
 
 	/// check if the first is --color
-	IsColor, Color = checkIfColor(myFlags, 0)
+	checkIfColor(myFlags, 0)
 	/// if the first is not --color
 
 	return IsOutput, OutputFile, IsColor, Color
 }
 
-func checkIfOutput(myFlags []string, argIndex int) (bool, string) {
-	output := false
-	outputFile := ""
+func checkIfOutput(myFlags []string, argIndex int) {
 	arg := myFlags[argIndex]
 
 	// handle out of range
 	if len(arg) >= 9 && arg[:9] == "--output=" {
 		// if len(arg) >= 9 && arg[:9] == "--output=" || len(arg) >= 8 && arg[:8] == "--output" {
-		if len(arg) >= 9 {
-			outputFile = arg[9:]
-		}
+		OutputFile = arg[9:]
 
-		output = true
+		IsOutput = true
 	}
-	return output, outputFile
+	return
 }
 
 /*

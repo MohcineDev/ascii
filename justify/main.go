@@ -46,7 +46,7 @@ func main() {
 		if handleFlag.IsAlign && handleFlag.Alignment == "justify" {
 
 			wordsBySpace = strings.Split(words[a], " ")
-			fmt.Println(wordsBySpace)
+
 		} else {
 			wordsBySpace = []string{words[a]}
 		}
@@ -115,7 +115,7 @@ func main() {
 	//////////////// O U T P U T ///////////////////
 
 	if !handleFlag.IsOutput && !handleFlag.IsAlign {
-		fmt.Println("1312")
+
 		// print result
 		for i := 0; i < len(result); i++ {
 			fmt.Print(result[i])
@@ -152,7 +152,7 @@ func printSpaces(width int) {
 func getLineWidth(word string, lines []string) int {
 	i := 1
 	lineWidth := 0
-	if true {
+	if handleFlag.Alignment == "justify" {
 		word = strings.ReplaceAll(word, " ", "")
 	}
 	for _, char := range word {

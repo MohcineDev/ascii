@@ -10,9 +10,6 @@ import (
 	"example.moh/handleFlag"
 )
 
-//TODO
-/// when using output flag display output usage msg
-/// when using color flag display color usage msg
 ///
 
 func main() {

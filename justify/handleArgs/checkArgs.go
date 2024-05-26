@@ -19,13 +19,13 @@ func CheckArgs(myArgs []string) (error, []string) {
 		return usageMsgs["align"], []string{}
 	}
 	///flag is output or color
-	isOutput, outputFile, isColor, color := handleFlag.IsValidFlag(myArgs)
+	handleFlag.IsValidFlag(myArgs)
 
 	///////////  OUTPUT ////////
 	if len(myArgs) == 1 {
-		if isOutput {
+		if handleFlag.IsOutput {
 			return usageMsgs["output"], []string{}
-		} else if isColor {
+		} else if handleFlag.IsColor {
 			///use color usage msg
 			return usageMsgs["color"], []string{}
 		} else if handleFlag.IsAlign {
@@ -44,13 +44,13 @@ func CheckArgs(myArgs []string) (error, []string) {
 			return nil, myArgs
 		}
 	} else if len(myArgs) == 2 {
-		if isOutput {
-			if len(outputFile) < 1 {
+		if handleFlag.IsOutput {
+			if len(handleFlag.OutputFile) < 1 {
 				return usageMsgs["output"], []string{}
 			}
-		} else if isColor {
+		} else if handleFlag.IsColor {
 			///color flag
-			if len(color) < 1 {
+			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
 				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
@@ -71,14 +71,14 @@ func CheckArgs(myArgs []string) (error, []string) {
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
 	} else if len(myArgs) == 3 {
-		if isOutput {
-			if len(outputFile) < 1 {
+		if handleFlag.IsOutput {
+			if len(handleFlag.OutputFile) < 1 {
 				return usageMsgs["output"], []string{}
 			}
 			myArgs[2] = getBannerFileName(myArgs[2])
 			///color flag
-		} else if isColor {
-			if len(color) < 1 {
+		} else if handleFlag.IsColor {
+			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
 				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
