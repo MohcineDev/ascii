@@ -33,8 +33,6 @@ func main() {
 		return
 	}
 
-	fmt.Printf("is align  : %v , alignment : %s", handleFlag.IsAlign, handleFlag.Alignment)
-	fmt.Println("")
 	/// to display correctly in the file
 	result = append(result, "")
 	letterIndex := 0
@@ -52,9 +50,7 @@ func main() {
 		} else {
 			wordsBySpace = []string{words[a]}
 		}
-		// if len(wordsBySpace) > 1 {
 
-		// }
 		for i := 1; i < 9; i++ {
 			if handleFlag.IsAlign && handleFlag.Alignment == "right" {
 
@@ -117,15 +113,7 @@ func main() {
 
 	}
 	//////////////// O U T P U T ///////////////////
-	/*
-	                     mm
-	            mm
-	   mm      mmm       mm
-	   mm   mm    mmm    mm
-	   terminal size / len(word / " ")-1 =  3
-	   mm                  */
 
-	// isOutput, outputFile, isColor, color = handleFlag.IsValidFlag(os.Args[1:])
 	if !handleFlag.IsOutput && !handleFlag.IsAlign {
 		fmt.Println("1312")
 		// print result
@@ -157,7 +145,7 @@ func getTerminalWidth() int {
 
 func printSpaces(width int) {
 	for i := 0; i < width; i++ {
-		fmt.Print("-")
+		fmt.Print(" ")
 	}
 }
 

@@ -17,7 +17,7 @@ import (
 
 func main() {
 	var result []string
-	endLine := false
+	// endLine := false
 	count := 0
 	var lettersIndex []int
 
@@ -31,16 +31,13 @@ func main() {
 	}
 	/// to display correctly in the file
 	result = append(result, "")
-	letterIndex := 0
 	for a := 0; a < len(words); a++ {
 		if len(getLines.LettersToColor) >= 1 {
-			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
+			lettersIndex = getLines.Index(words[a], getLines.LettersToColor)
 		}
 		for i := 1; i < 9; i++ {
-			endLine = false
-			letterIndex = 0
 
-			for _, char := range words[a] {
+			for index, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
 					fmt.Println("Error : char '", string(char), "' not found!!")
 					// return
@@ -52,20 +49,18 @@ func main() {
 				///for the third file
 				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 
-				if slices.Contains(lettersIndex, letterIndex) || !getLines.LettersProvided {
+				if slices.Contains(lettersIndex, index) || !getLines.LettersProvided {
 					result = append(result, handleFlag.Color+asciiLine+"\033[0m")
 				} else {
 					result = append(result, asciiLine)
 				}
 
-				endLine = true
-
-				letterIndex++
+				// endLine = true
 			}
 
-			if endLine {
-				result = append(result, "\n")
-			}
+			// if endLine {
+			result = append(result, "\n")
+			// }
 
 		}
 

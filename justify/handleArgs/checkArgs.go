@@ -2,7 +2,6 @@ package handleArgs
 
 import (
 	"errors"
-	"fmt"
 	"path"
 	"regexp"
 
@@ -93,7 +92,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 			}
 		}
 	}
-	fmt.Println("myArgs : ", myArgs)
 	return nil, myArgs
 }
 

@@ -95,7 +95,7 @@ func getRgbColor(colorValue string) string {
 	if len(colorValue) >= 4 && strings.ToLower(colorValue[:4]) == "rgb(" && string(colorValue[len(colorValue)-1:]) == ")" {
 		rgb = formatRGBToAnsi(colorValue)
 	} else if colorValue[:1] == "#" {
-		r, _ := regexp.Compile(`[a-f0-9]+`)
+		r, _ := regexp.Compile(`[a-fA-F0-9]+`)
 		value := r.FindString(colorValue)
 		if len(value) == len(colorValue[1:]) {
 			///this if used to check if the user entersan invalid color zx : #3155q7, #54t451, #895x54
@@ -138,12 +138,10 @@ func formatRGBToAnsi(colorValue string) string {
 	///handle spaces
 	r, _ := regexp.Compile(`[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+`)
 	if strings.Contains(colorValue, " ") {
-		fmt.Println("contains")
 		colorValue = strings.ReplaceAll(colorValue, " ", "")
 	}
 	// r, _ := regexp.Compile(`[0-9]+,[0-9]+,[0-9]+`)
 	onlyNbr := r.FindString(colorValue)
-	fmt.Println("onl", onlyNbr)
 	if len(onlyNbr) >= 1 {
 		///rgb ansi format
 		return "\033[38;2;" + strings.ReplaceAll(onlyNbr, ",", ";") + "m"

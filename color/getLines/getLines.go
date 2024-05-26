@@ -95,7 +95,7 @@ func GetLettersIndex(input string, letters string) []int {
 		b := 0
 		for i := 1; i < len(indexes); i++ {
 
-			if i > 1 {
+			if i > 1 && len(letters) > 1 {
 				indexes[i] += len(letters) - 1 + b
 
 			} else {
@@ -116,6 +116,23 @@ func GetLettersIndex(input string, letters string) []int {
 			}
 		}
 	}
+	fmt.Println("lqst indexes : ", indexes)
 
 	return indexes
+}
+
+func Index(input, letters string) (slice []int) {
+	for i := 0; i < len(input)-len(letters); i++ {
+		if letters == input[i:i+len(letters)] {
+			slice = append(slice, i)
+		}
+	}
+	sliceLength := len(slice)
+	for i := 0; i < sliceLength; i++ {
+		for j := 1; j < len(letters); j++ {
+			slice = append(slice, slice[i]+j)
+		}
+	}
+	fmt.Println(slice)
+	return
 }

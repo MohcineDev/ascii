@@ -3,6 +3,7 @@ package getLines
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"example.moh/handleArgs"
@@ -79,7 +80,7 @@ func GetLines() ([]string, string) {
 	}
 	lines := strings.Split(string(file), "\n")
 
-	return lines, args[inputIndex]
+	return lines, strings.TrimSpace(removeSpaces(args[inputIndex]))
 }
 
 func GetLettersIndex(input string, letters string) []int {
@@ -111,4 +112,9 @@ func GetLettersIndex(input string, letters string) []int {
 	}
 
 	return indexes
+}
+
+func removeSpaces(oldString string) string {
+	regRule := regexp.MustCompile(`\s+`)
+	return regRule.ReplaceAllString(oldString, " ")
 }
