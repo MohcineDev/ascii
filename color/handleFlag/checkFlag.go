@@ -20,43 +20,38 @@ var (
 )
 
 // make sure only one flag is used
-// return that flag and it's value
+// return that flag and it's valueble to export the output of the web application, at least in one export format at your choice.
 func IsValidFlag(myFlags []string) {
-	checkIfOutput(myFlags, 0)
+	checkIfOutput(myFlags[0])
 
-	checkIfColor(myFlags, 0)
+	checkIfColor(myFlags[0])
 
 }
 
-func checkIfOutput(myFlags []string, argIndex int) {
-	arg := myFlags[argIndex]
-
-	// handle out of range
-	if len(arg) >= 9 && arg[:9] == "--output=" && path.Ext(arg[9:]) == ".txt" {
-		OutputFile = arg[9:]
-
+func checkIfOutput(myFlag string) {
+	if len(myFlag) >= 9 && myFlag[:9] == "--output=" && path.Ext(myFlag[9:]) == ".txt" {
+		OutputFile = myFlag[9:]
 		IsOutput = true
 
 	}
 }
 
-func checkIfColor(myFlags []string, argIndex int) {
+func checkIfColor(myFlag string) {
 
-	arg := myFlags[argIndex]
-	if len(arg) >= 8 && arg[:8] == "--color=" {
-		Color = arg[8:]
+	if len(myFlag) >= 8 && myFlag[:8] == "--color=" {
+
+		Color = myFlag[8:]
 
 		IsColor = true
 	}
 
 	if IsColor {
 		if strings.Contains(Color, "(") || strings.Contains(Color, "#") {
-			getRgbColor(Color)
+			checColorType(Color)
 		} else {
 			getANSIColor(strings.ToLower(Color))
 		}
 	}
-
 }
 
 func getANSIColor(color string) {
@@ -76,7 +71,7 @@ func getANSIColor(color string) {
 	Color = colors[color]
 }
 
-func getRgbColor(colorValue string) {
+func checColorType(colorValue string) {
 	// getColor("451263")
 	rgb := ""
 	if len(colorValue) >= 4 && strings.ToLower(colorValue[:4]) == "rgb(" && string(colorValue[len(colorValue)-1:]) == ")" {
@@ -84,7 +79,6 @@ func getRgbColor(colorValue string) {
 	} else if colorValue[:1] == "#" {
 		r, _ := regexp.Compile(`[a-fA-F0-9]+`)
 		value := r.FindString(colorValue)
-		fmt.Println("value :", value, value[:6])
 		if len(value) == len(colorValue[1:]) {
 			///this if used to check if the user enters an invalid color zx : #3155q7, #54t451, #895x54
 
@@ -130,7 +124,7 @@ func formatRGBToAnsi(colorValue string) string {
 	onlyNbr := r.FindString(colorValue)
 	if len(onlyNbr) >= 1 {
 		///format RGB to ANSI format
-		return "\033[48;2;" + strings.ReplaceAll(onlyNbr, ",", ";") + "m"
+		return "\033[38;2;" + strings.ReplaceAll(onlyNbr, ",", ";") + "m"
 	}
 	return ""
 }

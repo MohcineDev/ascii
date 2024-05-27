@@ -36,10 +36,12 @@ func CompareFileWithString(args []string, t *testing.T, file string) {
 	if err != nil {
 		fmt.Println("execution error")
 	}
+	fmt.Println(string(output))
 	content, err := os.ReadFile("./test/" + file)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
+	fmt.Println(string(content))
 
 	///if output doesn't equal the content of file / string
 	if !strings.EqualFold(string(content), string(output)) {

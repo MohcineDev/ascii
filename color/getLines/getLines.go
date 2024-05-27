@@ -25,24 +25,23 @@ func GetLines() ([]string, string) {
 		os.Exit(0) /// it stops the test
 	}
 
-	bannerFile := ""
+	bannerFile := "./Banners/standard.txt"
 	inputIndex := 0
-	bannerIndex := 0
 	fmt.Println("GetLines args :", args, len(args))
 	///if the flag is valid IsOutput = true
 
 	if handleFlag.IsOutput {
+		fmt.Println(handleFlag.IsOutput)
+
 		if len(args) == 1 { // args = [flag, text ]
-			bannerFile = "./Banners/standard.txt"
 		} else if len(args) == 2 {
 			inputIndex = 1
-			bannerFile = "./Banners/standard.txt"
 		} else if len(args) == 3 {
-			bannerIndex = 2
 			inputIndex = 1
-			bannerFile = "./Banners/" + args[bannerIndex]
+			bannerFile = "./Banners/" + args[2]
 		}
 	} else if handleFlag.IsColor {
+		bannerFile = "./Banners/standard.txt"
 		////if there is a color flag
 		if len(args) == 2 {
 			///no letterstocolor provided
@@ -53,12 +52,9 @@ func GetLines() ([]string, string) {
 			inputIndex = 2
 		}
 	} else {
-		if len(args) == 1 {
-			bannerFile = "./Banners/standard.txt"
-		} else if len(args) == 2 {
-			bannerIndex = 1
+		if len(args) == 2 {
 			/// fs projLettersIndex := ect // no flag
-			bannerFile = "../" + args[bannerIndex]
+			bannerFile = "./Banners/" + args[1]
 		} else if len(args) >= 3 && string(args[0][0]) != "-" {
 
 			// fs usage message
@@ -69,7 +65,7 @@ func GetLines() ([]string, string) {
 	}
 	file, err := os.ReadFile(bannerFile)
 	if err != nil {
-		fmt.Println("aError :", bannerFile, "file not found")
+		fmt.Println("invalide Banner")
 
 		return []string{}, ""
 	}
@@ -78,51 +74,8 @@ func GetLines() ([]string, string) {
 	return lines, args[inputIndex]
 }
 
-func GetLettersIndex(input string, letters string) []int {
-	var indexes []int
-	///replace letters to color with one char for easier search
-	mm := strings.ReplaceAll(input, letters, "é")
-	myInput := []rune(mm)
-
-	for i, v := range myInput {
-		if v == 'é' {
-			indexes = append(indexes, i)
-		}
-	}
-	fmt.Println("indexes  : ", indexes)
-	///if there is an index
-	if len(indexes) > 0 {
-		b := 0
-		for i := 1; i < len(indexes); i++ {
-
-			if i > 1 && len(letters) > 1 {
-				indexes[i] += len(letters) - 1 + b
-
-			} else {
-
-				indexes[i] += len(letters) - 1
-			}
-			///3  8  14 18
-
-			fmt.Println("i : ", indexes[i])
-			b++
-		}
-		fmt.Println("new indexes : ", indexes)
-		a := len(indexes)
-
-		for i := 0; i < a; i++ {
-			for j := 1; j < len(letters); j++ {
-				indexes = append(indexes, indexes[i]+j)
-			}
-		}
-	}
-	fmt.Println("lqst indexes : ", indexes)
-
-	return indexes
-}
-
 func Index(input, letters string) (slice []int) {
-	for i := 0; i < len(input)-len(letters); i++ {
+	for i := 0; i <= len(input)-len(letters); i++ {
 		if letters == input[i:i+len(letters)] {
 			slice = append(slice, i)
 		}
@@ -133,6 +86,5 @@ func Index(input, letters string) (slice []int) {
 			slice = append(slice, slice[i]+j)
 		}
 	}
-	fmt.Println(slice)
 	return
 }

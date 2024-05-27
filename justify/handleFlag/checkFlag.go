@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -23,62 +24,62 @@ var (
 // make sure only one flag is used
 // return that flag and it's value
 func IsValidFlag(myFlags []string) {
-	checkIfOutput(myFlags, 0)
+	checkFlag(myFlags)
+	checkIfOutput(myFlags[0])
 
-	if !IsOutput && len(myFlags) >= 2 {
-		checkIfOutput(myFlags, 1)
-	}
-	/// check if the first is --color
-	checkIfColor(myFlags, 0)
-	/// if the first is not --color
-	if !IsColor && len(myFlags) >= 2 {
-		checkIfColor(myFlags, 1)
-	}
-	checkIfAlign(myFlags, 0)
-	if !IsAlign && len(myFlags) >= 2 {
-		checkIfAlign(myFlags, 1)
-	}
+	checkIfColor(myFlags[0])
+	if IsColor {
+		checkIfColor(myFlags[1])
 
-	if IsOutput && IsColor {
-		fmt.Println("0000000000000000000Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
-		os.Exit(1)
+	}
+	checkIfAlign(myFlags[0])
+	if IsAlign {
+		checkIfAlign(myFlags[1])
+	}
+	fmt.Print(Color)
+}
+
+func checkFlag(myFlags []string) {
+	for i := 0; i < len(myFlags); i++ {
+		if !IsOutput {
+			checkIfOutput(myFlags[i])
+		} else if !IsColor {
+			checkIfColor(myFlags[i])
+		} else if !IsAlign {
+			checkIfAlign(myFlags[i])
+		}
 	}
 
 }
 
-func checkIfAlign(myFlags []string, argIndex int) {
-	arg := myFlags[argIndex]
+func checkIfAlign(myFlag string) {
 	// handle out of range
-	if len(arg) >= 8 && arg[:8] == "--align=" {
-		Alignment = arg[8:]
+	// fmt.Println(Color)
+	if len(myFlag) >= 8 && myFlag[:8] == "--align=" {
+		Alignment = myFlag[8:]
 		IsAlign = true
 	}
 }
 
-func checkIfOutput(myFlags []string, argIndex int) {
-	arg := myFlags[argIndex]
+func checkIfOutput(myFlag string) {
 
 	// handle out of range
-	if len(arg) >= 9 && arg[:9] == "--output=" {
-		OutputFile = arg[9:]
+	if len(myFlag) >= 9 && myFlag[:9] == "--output=" && path.Ext(myFlag[9:]) == ".txt" {
+		OutputFile = myFlag[9:]
 
 		IsOutput = true
 	}
-
 }
 
-func checkIfColor(myFlags []string, argIndex int) {
+func checkIfColor(myFlag string) {
 
-	arg := myFlags[argIndex]
-	if len(arg) >= 8 && arg[:8] == "--color=" {
-		Color = arg[8:]
-
+	if len(myFlag) >= 8 && myFlag[:8] == "--color=" {
+		Color = myFlag[8:]
 		IsColor = true
 	}
 
 	if IsColor {
 		if strings.Contains(Color, "(") || strings.Contains(Color, "#") {
-			// color = "\033[38;2;138;150;240m"
 			getRgbColor(Color)
 		} else {
 			getANSIColor(strings.ToLower(Color))
@@ -110,7 +111,7 @@ func getRgbColor(colorValue string) {
 	if len(colorValue) >= 4 && strings.ToLower(colorValue[:4]) == "rgb(" && string(colorValue[len(colorValue)-1:]) == ")" {
 		rgb = formatRGBToAnsi(colorValue)
 	} else if colorValue[:1] == "#" {
-		r, _ := regexp.Compile(`[a-f0-9]+`)
+		r, _ := regexp.Compile(`[a-fA-F0-9]+`)
 		value := r.FindString(colorValue)
 		if len(value) == len(colorValue[1:]) {
 			///this if used to check if the user entersan invalid color zx : #3155q7, #54t451, #895x54
