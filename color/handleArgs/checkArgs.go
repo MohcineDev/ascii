@@ -2,7 +2,6 @@ package handleArgs
 
 import (
 	"errors"
-	"fmt"
 	"path"
 	"regexp"
 
@@ -19,7 +18,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 	if len(myArgs) < 1 || len(myArgs) > 3 {
 		return usageMsgs["color"], []string{}
 	}
-	///flag is output or color
 	handleFlag.IsValidFlag(myArgs)
 
 	///////////  OUTPUT ////////
@@ -46,7 +44,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 			}
 
 		} else if handleFlag.IsColor {
-			fmt.Println("cccc: ", handleFlag.Color)
 			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
 				return errors.New("CheckArgs Error : Color not found"), []string{}
@@ -59,7 +56,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 				return usageMsgs["color"], []string{}
 			}
 		} else {
-			///there is only one dash
 			myArgs[1] = getBannerFileName(myArgs[1])
 		}
 	} else if len(myArgs) == 3 {

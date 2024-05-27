@@ -28,8 +28,9 @@ func GetLines() ([]string, string) {
 	bannerFile := ""
 	inputIndex := 0
 	bannerIndex := 0
-	//	fmt.Println("GetLines args :", args, len(args))
+	fmt.Println("GetLines args :", args, len(args))
 	///if the flag is valid IsOutput = true
+
 	if handleFlag.IsOutput {
 		if len(args) == 1 { // args = [flag, text ]
 			bannerFile = "./Banners/standard.txt"
@@ -39,11 +40,10 @@ func GetLines() ([]string, string) {
 		} else if len(args) == 3 {
 			bannerIndex = 2
 			inputIndex = 1
-			bannerFile = "../" + args[bannerIndex]
+			bannerFile = "./Banners/" + args[bannerIndex]
 		}
 	} else if handleFlag.IsColor {
 		////if there is a color flag
-		bannerFile = "./Banners/standard.txt"
 		if len(args) == 2 {
 			///no letterstocolor provided
 			LettersProvided = false

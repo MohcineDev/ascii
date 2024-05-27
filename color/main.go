@@ -10,11 +10,8 @@ import (
 	"example.moh/handleFlag"
 )
 
-///
-
 func main() {
 	var result []string
-	// endLine := false
 	count := 0
 	var lettersIndex []int
 
@@ -52,12 +49,9 @@ func main() {
 					result = append(result, asciiLine)
 				}
 
-				// endLine = true
 			}
 
-			// if endLine {
 			result = append(result, "\n")
-			// }
 
 		}
 
