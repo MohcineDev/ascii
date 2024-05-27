@@ -25,31 +25,39 @@ var (
 // return that flag and it's value
 func IsValidFlag(myFlags []string) {
 	checkFlag(myFlags)
-	checkIfOutput(myFlags[0])
+	/*
+	   checkIfOutput(myFlags[0])
 
-	checkIfColor(myFlags[0])
-	if IsColor {
-		checkIfColor(myFlags[1])
+	   checkIfColor(myFlags[0])
 
-	}
-	checkIfAlign(myFlags[0])
-	if IsAlign {
-		checkIfAlign(myFlags[1])
-	}
-	fmt.Print(Color)
+	   	if IsColor {
+	   		checkIfColor(myFlags[1])
+
+	   }
+	   checkIfAlign(myFlags[0])
+
+	   	if IsAlign {
+	   		checkIfAlign(myFlags[1])
+	   	}
+
+	   fmt.Print(Color)
+	*/
 }
 
 func checkFlag(myFlags []string) {
-	for i := 0; i < len(myFlags); i++ {
+	for i := 0; i < 2; i++ {
 		if !IsOutput {
 			checkIfOutput(myFlags[i])
-		} else if !IsColor {
+		}
+		if !IsColor {
 			checkIfColor(myFlags[i])
-		} else if !IsAlign {
+		}
+		if !IsAlign {
 			checkIfAlign(myFlags[i])
 		}
 	}
-
+	//	fmt.Printf("IsOutput : %v | IsColor %v | IsAlign : %v | OutputFile : %v | Color : %v | Alignment : %v", IsOutput, IsColor, IsAlign, OutputFile, Color, Alignment)
+	fmt.Println("")
 }
 
 func checkIfAlign(myFlag string) {
@@ -72,6 +80,7 @@ func checkIfOutput(myFlag string) {
 }
 
 func checkIfColor(myFlag string) {
+	fmt.Println("myFlags[i] ; ", myFlag)
 
 	if len(myFlag) >= 8 && myFlag[:8] == "--color=" {
 		Color = myFlag[8:]
