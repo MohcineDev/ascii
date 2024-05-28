@@ -98,6 +98,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 	} else if len(myArgs) == 4 {
 		if handleFlag.IsColor && !handleFlag.IsAlign {
 			return usageMsgs["color"], []string{}
+		} else if handleFlag.IsColor && handleFlag.IsAlign {
+			fmt.Println("zerezrzer")
 		}
 	}
 	return nil, myArgs

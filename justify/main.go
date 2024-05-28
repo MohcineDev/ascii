@@ -36,6 +36,9 @@ func main() {
 	/// to display correctly in the file
 	result = append(result, "")
 	letterIndex := 0
+	fmt.Println(handleFlag.Alignment)
+	fmt.Println(handleFlag.OutputFile)
+	fmt.Println(handleFlag.Color)
 	//get word length using style
 	for a := 0; a < len(words); a++ {
 		lineWidth := getLineWidth(words[a], lines)

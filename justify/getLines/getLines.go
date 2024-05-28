@@ -40,6 +40,8 @@ func GetLines() ([]string, string) {
 			inputIndex = 1
 			bannerFile = "./Banners/" + args[bannerIndex]
 		}
+	} else if handleFlag.IsColor && handleFlag.IsAlign {
+
 	} else if handleFlag.IsColor {
 		////if there is a color flag
 		if len(args) == 2 {

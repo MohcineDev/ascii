@@ -45,7 +45,7 @@ func IsValidFlag(myFlags []string) {
 }
 
 func checkFlag(myFlags []string) {
-	for i := 0; i < 2; i++ {
+	for i := 0; i < len(os.Args[1:]); i++ {
 		if !IsOutput {
 			checkIfOutput(myFlags[i])
 		}
