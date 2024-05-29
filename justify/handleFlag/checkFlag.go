@@ -57,7 +57,7 @@ func checkFlag(myFlags []string) {
 		}
 	}
 	//	fmt.Printf("IsOutput : %v | IsColor %v | IsAlign : %v | OutputFile : %v | Color : %v | Alignment : %v", IsOutput, IsColor, IsAlign, OutputFile, Color, Alignment)
-	fmt.Println("")
+
 }
 
 func checkIfAlign(myFlag string) {
@@ -80,7 +80,6 @@ func checkIfOutput(myFlag string) {
 }
 
 func checkIfColor(myFlag string) {
-	fmt.Println("myFlags[i] ; ", myFlag)
 
 	if len(myFlag) >= 8 && myFlag[:8] == "--color=" {
 		Color = myFlag[8:]

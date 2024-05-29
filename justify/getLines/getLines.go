@@ -41,7 +41,10 @@ func GetLines() ([]string, string) {
 			bannerFile = "./Banners/" + args[bannerIndex]
 		}
 	} else if handleFlag.IsColor && handleFlag.IsAlign {
-
+		if len(args) == 3 {
+			LettersToColor = args[1]
+			inputIndex = 2
+		}
 	} else if handleFlag.IsColor {
 		////if there is a color flag
 		if len(args) == 2 {

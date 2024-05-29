@@ -78,6 +78,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 			}
 			myArgs[2] = getBannerFileName(myArgs[2])
 			///color flag
+		} else if handleFlag.IsColor && handleFlag.IsAlign {
+			fmt.Println("55")
 		} else if handleFlag.IsColor {
 			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
