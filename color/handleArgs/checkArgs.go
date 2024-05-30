@@ -35,7 +35,6 @@ func CheckArgs(myArgs []string) (error, []string) {
 			return nil, myArgs
 		}
 	} else if len(myArgs) == 2 {
-
 		if handleFlag.IsOutput {
 			if len(handleFlag.OutputFile) < 1 {
 				return usageMsgs["output"], []string{}
@@ -43,7 +42,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 		} else if handleFlag.IsColor {
 			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
-				return errors.New("CheckArgs Error : Color not found"), []string{}
+				return usageMsgs["color"], []string{}
+
 			}
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
@@ -64,7 +64,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 		} else if handleFlag.IsColor {
 			if len(handleFlag.Color) < 1 {
 				///Error : color not found!!!
-				return errors.New("CheckArgs Error : Color not found"), []string{}
+				return usageMsgs["color"], []string{}
+
 			}
 		} else if checkForDash(myArgs[0]) {
 			if checkForFlagType(myArgs[0]) {
@@ -72,6 +73,9 @@ func CheckArgs(myArgs []string) (error, []string) {
 			} else {
 				return usageMsgs["color"], []string{}
 			}
+		} else {
+			return usageMsgs["color"], []string{}
+
 		}
 	}
 

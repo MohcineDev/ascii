@@ -14,8 +14,6 @@ func main() {
 	lines, input := getLines.GetLines()
 	result = getLines.MakeArt(input, lines)
 
-	//////////////// O U T P U T ///////////////////
-
 	if !handleFlag.IsOutput {
 		fmt.Print(result)
 		return

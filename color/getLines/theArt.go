@@ -18,7 +18,6 @@ func MakeArt(input string, lines []string) (result string) {
 		return
 	}
 	/// to display correctly in the file
-	// result = append(result, "")
 	for a := 0; a < len(words); a++ {
 		if len(LettersToColor) >= 1 {
 			lettersIndex = Index(words[a], LettersToColor)
@@ -28,25 +27,21 @@ func MakeArt(input string, lines []string) (result string) {
 			for index, char := range words[a] {
 				if int(char) < 32 || int(char) > 126 {
 					fmt.Println("Error : char '", string(char), "' not found!!")
-					// return
-					os.Exit(1)
+					os.Exit(0)
 				}
 				s := (int(char) - 32) * 9
 
 				asciiLine := lines[s+i]
-				///for the third file
-				// asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+				///thinkertoy thing
+				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 
 				if slices.Contains(lettersIndex, index) || !LettersProvided {
-					// result = append(result, handleFlag.Color+asciiLine+"\033[0m")
 					result += handleFlag.Color + asciiLine + "\033[0m"
 				} else {
-					// result = append(result, asciiLine)
 					result += asciiLine
 				}
 
 			}
-			// result = append(result, "\n")
 			if words[a] != "" {
 				result += "\n"
 			}
@@ -54,7 +49,6 @@ func MakeArt(input string, lines []string) (result string) {
 		}
 
 		if count < newLineCount && words[a] == "" {
-			// result = append(result, "\n")
 			result += "\n"
 			count++
 		}
