@@ -5,8 +5,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
+- [Contributing](#contributing) 
 - [Acknowledgements](#acknowledgements)      
 
 ## Installation
@@ -35,12 +34,7 @@ Guidelines for contributing to your project:
 1. Fork the repository and create a new branch.
 2. Make your changes and ensure they are properly tested.
 3. Submit a pull request with a detailed description of your changes.
-
-## Contributors
-- [ielharraq](https://learn.zone01oujda.ma/git/ielharra)
-- [melfihry](https://learn.zone01oujda.ma/git/melfihry)
-- [mfakiri](https://learn.zone01oujda.ma/git/mfakiri)
-
+ 
 
 ## Acknowledgements
 

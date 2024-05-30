@@ -20,7 +20,7 @@ func GetLines() ([]string, string) {
 	myArgs := os.Args[1:]
 
 	///handle args error
-	argsError, args := handleArgs.CheckArgs(myArgs)
+	args, argsError := handleArgs.CheckArgs(myArgs)
 	if argsError != nil {
 		fmt.Println(argsError)
 		os.Exit(0) /// it stops the test
@@ -54,13 +54,17 @@ func GetLines() ([]string, string) {
 		} else if len(args) == 3 {
 			LettersToColor = args[1]
 			inputIndex = 2
+		} else if len(args) == 4 {
+			LettersToColor = args[1]
+			inputIndex = 2
+			bannerIndex = 3
+			bannerFile = "./Banners/" + args[bannerIndex]
 		}
 	} else if handleFlag.IsAlign {
 		////if there is a color flag
 		if len(args) == 2 {
 			inputIndex = 1
 		} else if len(args) == 3 {
-			fmt.Println("g")
 			inputIndex = 1
 			bannerIndex = 2
 			bannerFile = "./Banners/" + args[bannerIndex]
