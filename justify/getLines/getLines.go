@@ -60,7 +60,11 @@ func GetLines() ([]string, string) {
 		if len(args) == 2 {
 			inputIndex = 1
 		} else if len(args) == 3 {
-			inputIndex = 2
+			fmt.Println("g")
+			inputIndex = 1
+			bannerIndex = 2
+			bannerFile = "./Banners/" + args[bannerIndex]
+
 		}
 	} else {
 		if len(args) == 1 {
@@ -84,7 +88,6 @@ func GetLines() ([]string, string) {
 		return []string{}, ""
 	}
 	lines := strings.Split(string(file), "\n")
-
 	return lines, strings.TrimSpace(removeSpaces(args[inputIndex]))
 }
 

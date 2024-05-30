@@ -64,8 +64,11 @@ func checkIfAlign(myFlag string) {
 	// handle out of range
 	// fmt.Println(Color)
 	if len(myFlag) >= 8 && myFlag[:8] == "--align=" {
-		Alignment = myFlag[8:]
 		IsAlign = true
+	}
+	if IsAlign {
+		Alignment = myFlag[8:]
+
 	}
 }
 

@@ -36,7 +36,6 @@ func main() {
 	/// to display correctly in the file
 	result = append(result, "")
 	letterIndex := 0
-
 	//get word length using style
 	for a := 0; a < len(words); a++ {
 		lineWidth := getLineWidth(words[a], lines)
@@ -44,7 +43,7 @@ func main() {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
 		wordsBySpace := []string{}
-		if handleFlag.IsAlign && handleFlag.Alignment == "justify" {
+		if handleFlag.Alignment == "justify" {
 
 			wordsBySpace = strings.Split(words[a], " ")
 
@@ -53,25 +52,25 @@ func main() {
 		}
 
 		for i := 1; i < 9; i++ {
-			if handleFlag.IsAlign && handleFlag.Alignment == "right" {
+			if len(wordsBySpace[0]) > 1 {
+				switch handleFlag.Alignment {
+				case "right":
+					printSpaces(terminalWidth - lineWidth)
+				case "center":
+					printSpaces((terminalWidth - lineWidth) / 2)
+				}
 
-				printSpaces(terminalWidth - lineWidth)
 			}
-			///center
-			if handleFlag.IsAlign && handleFlag.Alignment == "center" {
-
-				printSpaces((terminalWidth - lineWidth) / 2)
-			}
-
 			endLine = false
 			letterIndex = 0
 			for j := 0; j < len(wordsBySpace); j++ {
-				if handleFlag.IsAlign && handleFlag.Alignment == "justify" {
+				if handleFlag.Alignment == "justify" {
 					if j > 0 {
 						printSpaces((terminalWidth - lineWidth) / (len(wordsBySpace) - 1))
 					}
 				}
 				for _, char := range wordsBySpace[j] {
+
 					if int(char) < 32 || int(char) > 126 {
 						fmt.Println("Error : char '", string(char), "' not found!!")
 						// return
@@ -89,25 +88,28 @@ func main() {
 
 						result = append(result, asciiLine)
 					}
-					if handleFlag.IsAlign {
+					if handleFlag.IsAlign && wordsBySpace[j] != "" {
 						fmt.Print(asciiLine)
 					}
-
 					endLine = true
 					letterIndex++
 				}
 			}
-			if handleFlag.IsAlign {
+			if handleFlag.IsAlign && endLine {
+
 				fmt.Print("\n")
 			}
 
 			if endLine {
 				result = append(result, "\n")
 			}
-
 		}
-
-		if count < newLineCount && words[a] == "" {
+		if count < newLineCount && handleFlag.IsAlign && words[a] == "" {
+			fmt.Print("\n")
+			count++
+		}
+		//&& !handleFlag.IsAlign  to prevent this condition from execution
+		if count < newLineCount && words[a] == "" && !handleFlag.IsAlign {
 			result = append(result, "\n")
 			count++
 		}

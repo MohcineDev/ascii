@@ -3,7 +3,6 @@ package handleArgs
 import (
 	"errors"
 	"fmt"
-	"path"
 	"regexp"
 
 	"example.moh/handleFlag"
@@ -16,7 +15,7 @@ var usageMsgs = map[string]error{
 }
 
 func CheckArgs(myArgs []string) (error, []string) {
-	if len(myArgs) < 1 || len(myArgs) > 10 {
+	if len(myArgs) < 1 || len(myArgs) > 5 {
 		return usageMsgs["align"], []string{}
 	}
 	///flag is output or color
@@ -56,7 +55,7 @@ func CheckArgs(myArgs []string) (error, []string) {
 				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
 		} else if handleFlag.IsAlign {
-			if len(handleFlag.Alignment) < 1 {
+			if len(handleFlag.Alignment) < 1 || (handleFlag.Alignment != "center" && handleFlag.Alignment != "right" && handleFlag.Alignment != "justify") {
 
 				return usageMsgs["align"], []string{}
 			}
@@ -86,7 +85,11 @@ func CheckArgs(myArgs []string) (error, []string) {
 				return errors.New("CheckArgs Error : Color not found"), []string{}
 			}
 		} else if handleFlag.IsAlign {
-
+			if len(handleFlag.Alignment) < 1 {
+				///Error : color not found!!!
+				return errors.New("Alignment  Error "), []string{}
+			}
+			myArgs[2] = getBannerFileName(myArgs[2])
 		} else if checkForDash(myArgs[0]) {
 			fmt.Println("31")
 			if checkForFlagType(myArgs[0], "output") {
@@ -108,10 +111,8 @@ func CheckArgs(myArgs []string) (error, []string) {
 }
 
 func getBannerFileName(Banner string) string {
-	if path.Ext(Banner) != ".txt" {
-		Banner += ".txt"
-	}
-	return Banner
+	return Banner + ".txt"
+
 }
 
 // /check if there is a dash at the beginning
