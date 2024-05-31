@@ -14,8 +14,12 @@ var usageMsgs = map[string]error{
 }
 
 func CheckArgs(myArgs []string) ([]string, error) {
-	if len(myArgs) < 1 || len(myArgs) > 4 {
+	if handleFlag.IsAlign && (len(myArgs) < 1 || len(myArgs) > 3) {
+
 		return []string{}, usageMsgs["align"]
+	} else if len(myArgs) < 1 || len(myArgs) > 4 {
+		return []string{}, usageMsgs["align"]
+
 	}
 	///check the used flag
 	handleFlag.IsValidFlag(myArgs)

@@ -44,7 +44,7 @@ func main() {
 		}
 		wordsBySpace := []string{}
 		if handleFlag.Alignment == "justify" {
-
+			words[a] = strings.TrimSpace(words[a])
 			wordsBySpace = strings.Split(words[a], " ")
 
 		} else {
@@ -158,12 +158,17 @@ func printSpaces(width int) {
 func getLineWidth(word string, lines []string) int {
 	i := 1
 	lineWidth := 0
+	fmt.Println(word)
 	if handleFlag.Alignment == "justify" {
 		///remove spaces to only count the chars
 		word = strings.ReplaceAll(word, " ", "")
 	}
 	for _, char := range word {
-
+		if int(char) < 32 || int(char) > 126 {
+			fmt.Println("Error : char '", string(char), "' not found!!")
+			// return
+			os.Exit(1)
+		}
 		s := (int(char) - 32) * 9
 
 		//add the length of the char based on the used style
