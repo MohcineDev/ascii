@@ -14,44 +14,34 @@ type Film struct {
 func parseTheFile(name string, writer http.ResponseWriter) {
 	tmpl, err := template.ParseFiles(name)
 	if err != nil {
-		fmt.Println("Error parsing the file", err)
+		http.Error(writer, "Error parsing the file ", http.StatusInternalServerError)
 		return
 	}
 	err = tmpl.ExecuteTemplate(writer, name, nil)
 	if err != nil {
-		fmt.Println("Error when exxecuting the template", err)
+		fmt.Println("Error when executing the template", err)
 	}
 }
-func hundleFunc(writer http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
+func handleFunc(res http.ResponseWriter, req *http.Request) {
+	switch req.URL.Path {
 	case "/":
 		fileName := "index.html"
-		parseTheFile(fileName, writer)
-		/*		temp1 := template.Must(template.ParseFiles("index.html"))
+		parseTheFile(fileName, res)
 
-				films := map[string][]Film{
-
-					"Films": {
-						{Title: "The GodFather", Director: "Francis Ford Coppala"},
-						{Title: "Blade Runner", Director: "Ridley scott"},
-						{Title: "The thing", Director: "John Carpenter"},
-					},
-				}
-				temp1.Execute(w, films)*/
 	case "/about":
-		fmt.Fprint(writer, "about")
+		fmt.Fprint(res, "about")
 	default:
 		fileName := "404.html"
-		parseTheFile(fileName, writer)
+		parseTheFile(fileName, res)
 	}
-	fmt.Printf(r.Method)
+	fmt.Printf(req.Method)
 }
 
 func main() {
 	const PORT = "8080"
+
+	http.HandleFunc("/", handleFunc)
+
 	fmt.Printf("running on %v...", PORT)
-
-	http.HandleFunc("/", hundleFunc)
-
 	http.ListenAndServe(":"+PORT, nil)
 }
