@@ -42,7 +42,7 @@ func main() {
 		if len(getLines.LettersToColor) >= 1 {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
-		wordsBySpace := []string{}
+		var wordsBySpace = []string{}
 		if handleFlag.Alignment == "justify" {
 			words[a] = strings.TrimSpace(words[a])
 			wordsBySpace = strings.Split(words[a], " ")
