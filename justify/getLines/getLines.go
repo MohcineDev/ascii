@@ -92,6 +92,7 @@ func GetLines() ([]string, string) {
 		return []string{}, ""
 	}
 	lines := strings.Split(string(file), "\n")
+
 	return lines, strings.TrimSpace(RemoveSpaces(args[inputIndex]))
 }
 
