@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
-    <title>Document</title>
+    <title>{{ . }}</title>
     <style>
         body {
             background: #101020;
@@ -83,8 +83,8 @@
     <h1>ascii-art-web</h1>
     <header>
 
-        <div class="content">
-            <textarea></textarea>
+        <form action="/ascii-art" class="content">
+            <textarea name="input"></textarea>
             <div>
                 <select>
                     <option selected="false">Font</option>
@@ -95,14 +95,8 @@
                 </select>
                 <button>Generate</button>
             </div>
-        </div>
+        </form>
     </header>
-    {{range .Films}}
-
-    <p>{{.Title}} {{.Director}}</p>
-
-    {{end}}
-
 </body>
 
 </html>

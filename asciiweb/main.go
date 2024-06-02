@@ -6,30 +6,32 @@ import (
 	"net/http"
 )
 
-type Film struct {
-	Title    string
-	Director string
-}
-
-func parseTheFile(name string, writer http.ResponseWriter) {
+func parseTheFile(name string, res http.ResponseWriter) {
 	tmpl, err := template.ParseFiles(name)
+	Title := "Ascii Art Web Project"
 	if err != nil {
-		http.Error(writer, "Error parsing the file ", http.StatusInternalServerError)
+		http.Error(res, "Error parsing the file ", http.StatusInternalServerError)
 		return
 	}
-	err = tmpl.ExecuteTemplate(writer, name, nil)
+
+	err = tmpl.ExecuteTemplate(res, name, Title)
+	// err = tmpl.ExecuteTemplate(res, name, doc{"Ascii Art Web Project"})
 	if err != nil {
 		fmt.Println("Error when executing the template", err)
 	}
 }
 func handleFunc(res http.ResponseWriter, req *http.Request) {
+
 	switch req.URL.Path {
 	case "/":
 		fileName := "index.html"
 		parseTheFile(fileName, res)
 
-	case "/about":
-		fmt.Fprint(res, "about")
+	case "/ascii-art":
+		input := req.FormValue("input")
+		fmt.Println("input : ", input)
+
+		fmt.Fprint(res, "ascii-art")
 	default:
 		fileName := "404.html"
 		parseTheFile(fileName, res)
