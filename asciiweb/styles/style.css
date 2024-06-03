@@ -24,6 +24,9 @@ textarea {
     box-sizing: border-box;
     height: 130px;
 }
+textarea::placeholder {
+    color: #116bdf; 
+}
 
 .content>div {
     display: flex;
