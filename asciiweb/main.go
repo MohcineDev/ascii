@@ -8,13 +8,14 @@ import (
 )
 
 type asciiS struct {
-	data string
+	input  string
+	banner string
 }
 
-func parseAndExecute(name string, res http.ResponseWriter, btata string) {
+func parseAndExecute(name string, res http.ResponseWriter, btata asciiS) {
 	tmpl, err := template.ParseFiles(name)
 	// Title := "Ascii Art Web Project"
-	data := ascii.Generate(btata)
+	data := ascii.Generate(btata.input, btata.banner)
 	fmt.Println("btata : ", btata)
 	if err != nil {
 		http.Error(res, "Error parsing the file ", http.StatusInternalServerError)
@@ -22,7 +23,8 @@ func parseAndExecute(name string, res http.ResponseWriter, btata string) {
 	}
 	if name == "ascii-art.html" {
 
-		err = tmpl.ExecuteTemplate(res, name, data)
+		err = tmpl.Execute(res, data)
+
 	} else {
 		err = tmpl.Execute(res, nil)
 	}
@@ -37,24 +39,30 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 	case "/":
 		fileName := "index.html"
 
-		parseAndExecute(fileName, res, "")
+		parseAndExecute(fileName, res, asciiS{})
 
 	case "/ascii-art":
+		if req.Method == http.MethodPost {
+			fmt.Println("Post Post Post ")
+
+		}
 		fileName := "ascii-art.html"
 		var a asciiS
 
-		a.data = req.FormValue("input")
-		fmt.Println("qsd.data: ", a.data)
+		a.input = req.FormValue("input")
+		a.banner = req.FormValue("banner")
 
-		parseAndExecute(fileName, res, a.data)
+		parseAndExecute(fileName, res, a)
 	default:
 		fileName := "404.html"
-		parseAndExecute(fileName, res, "")
+		http.Error(res, "Error parsing the file ", http.StatusInternalServerError)
+		res.WriteHeader(404)
+		parseAndExecute(fileName, res, asciiS{})
 	}
 }
 
 func main() {
-	const PORT = "8000"
+	const PORT = "8001"
 
 	fs := http.FileServer(http.Dir("styles/"))
 	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
