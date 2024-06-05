@@ -23,6 +23,7 @@ textarea {
     font-size: 1rem;
     box-sizing: border-box;
     height: 130px;
+    box-shadow: 0 0 4px #b8e4ff;
 }
 textarea::placeholder {
     color: #116bdf; 
@@ -30,24 +31,32 @@ textarea::placeholder {
 
 .content>div {
     display: flex;
+    margin-top: 14px;
 }
 
 select {
     text-transform: capitalize;
+    margin-right: 7px;
 }
-
+button{
+    margin-left: 7px;
+}
 select,
 button {
 
     border: none;
     display: block;
-    margin: 14px;
     padding: 8px 8px;
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
     background-color: #fff;
     flex: 1;
+    text-align: center;box-shadow: 0 0 4px #b8e4ff;
+}
+option{
+    cursor: pointer;
+
 }
 
 @media only screen and (max-width: 600px) {

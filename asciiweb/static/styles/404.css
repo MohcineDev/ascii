@@ -1,7 +1,7 @@
 
-body {
-    background: #f6f6fd;
+body { 
     color: #eee;
+    background: #f6f6fd;
     height: 100vh;
     margin: 0;
     display: flex;

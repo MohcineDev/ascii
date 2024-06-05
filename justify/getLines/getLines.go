@@ -112,7 +112,7 @@ func GetLettersIndex(input string, letters string) []int {
 	if len(indexes) > 0 {
 		for i := 1; i < len(indexes); i++ {
 			indexes[i] += len(letters) - 1
-			fmt.Println("i : ", indexes[i])
+			// fmt.Println("i : ", indexes[i])
 		}
 
 		a := len(indexes)

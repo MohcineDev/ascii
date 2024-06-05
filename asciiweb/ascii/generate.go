@@ -22,6 +22,9 @@ func Generate(input, banner string) string {
 		// return []string{}
 	}
 	for a := 0; a < len(words); a++ {
+		if condition {
+
+		}
 		for i := 1; i < 9; i++ {
 			for _, char := range words[a] {
 
@@ -33,7 +36,7 @@ func Generate(input, banner string) string {
 
 				asciiLine := lines[s+i]
 				///for the third file
-				//asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
+				asciiLine = strings.ReplaceAll(asciiLine, "\r", "")
 
 				resultS += string(asciiLine)
 				result = append(result, asciiLine)

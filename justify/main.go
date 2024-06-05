@@ -157,7 +157,7 @@ func printSpaces(width int) {
 
 func getLineWidth(word string, lines []string) int {
 	lineWidth := 0
-	fmt.Println(word)
+	// fmt.Println(word)
 	if handleFlag.Alignment == "justify" {
 		///remove spaces to only count the chars
 		word = strings.ReplaceAll(word, " ", "")
@@ -172,9 +172,9 @@ func getLineWidth(word string, lines []string) int {
 		s := (int(char) - 32) * 9
 		//add the length of the char based on the used style
 		lineWidth = lineWidth + len(lines[s+1])
-		fmt.Println(lines[s+2], len(lines[s+1]))
-		fmt.Println("")
-		fmt.Println("")
+		// fmt.Println(lines[s+2], len(lines[s+1]))
+		// fmt.Println("")
+		// fmt.Println("")
 	}
 	fmt.Println(lineWidth)
 	return lineWidth

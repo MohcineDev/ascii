@@ -37,14 +37,22 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 
 	switch req.URL.Path {
 	case "/":
+		if req.Method != http.MethodGet {
+			res.WriteHeader(http.StatusBadRequest)
+
+			return
+		}
 		fileName := "index.html"
 
 		parseAndExecute(fileName, res, asciiS{})
 
 	case "/ascii-art":
-		if req.Method == http.MethodPost {
-			fmt.Println("Post Post Post ")
+		if req.Method != http.MethodPost {
 
+			fileName := "400.html"
+			res.WriteHeader(http.StatusBadRequest)
+			parseAndExecute(fileName, res, asciiS{})
+			return
 		}
 		fileName := "ascii-art.html"
 		var a asciiS
@@ -55,17 +63,22 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 		parseAndExecute(fileName, res, a)
 	default:
 		fileName := "404.html"
-		http.Error(res, "Error parsing the file ", http.StatusInternalServerError)
-		res.WriteHeader(404)
+		res.WriteHeader(http.StatusNotFound)
 		parseAndExecute(fileName, res, asciiS{})
 	}
 }
 
 func main() {
-	const PORT = "8001"
+	const PORT = "8000"
+	// create Dir of type http.Dir
+	// dir := http.Dir("/static/")
+	// http.Handle("/static/", http.FileServer(dir))
+	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer("styles")))
+	fs := http.FileServer(http.Dir("./static/styles"))
+	http.Handle("/static/styles/", http.StripPrefix("/static/styles", fs))
 
-	fs := http.FileServer(http.Dir("styles/"))
-	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
+	imgs := http.FileServer(http.Dir("./static/imgs"))
+	http.Handle("/static/imgs/", http.StripPrefix("/static/imgs", imgs))
 
 	http.HandleFunc("/", handleFunc)
 
