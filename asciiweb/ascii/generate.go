@@ -22,9 +22,7 @@ func Generate(input, banner string) string {
 		// return []string{}
 	}
 	for a := 0; a < len(words); a++ {
-		if condition {
 
-		}
 		for i := 1; i < 9; i++ {
 			for _, char := range words[a] {
 
