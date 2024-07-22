@@ -22,7 +22,7 @@ func CheckArgs(myArgs []string) ([]string, error) {
 
 	switch len(myArgs) {
 	case 1:
-		if handleFlag.IsOutput {
+		if handleFlag.IsOutput {a
 			return []string{}, usageMsgs["output"]
 		} else if handleFlag.IsColor {
 			///use color usage msg
