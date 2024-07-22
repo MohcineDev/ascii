@@ -42,9 +42,9 @@ func main() {
 		if len(getLines.LettersToColor) >= 1 {
 			lettersIndex = getLines.GetLettersIndex(words[a], getLines.LettersToColor)
 		}
-		wordsBySpace := []string{}
+		var wordsBySpace = []string{}
 		if handleFlag.Alignment == "justify" {
-
+			//words[a] = strings.TrimSpace(words[a])
 			wordsBySpace = strings.Split(words[a], " ")
 
 		} else {
@@ -156,22 +156,26 @@ func printSpaces(width int) {
 }
 
 func getLineWidth(word string, lines []string) int {
-	i := 1
 	lineWidth := 0
+	// fmt.Println(word)
 	if handleFlag.Alignment == "justify" {
 		///remove spaces to only count the chars
 		word = strings.ReplaceAll(word, " ", "")
 	}
 	for _, char := range word {
 
-		s := (int(char) - 32) * 9
-
-		//add the length of the char based on the used style
-		lineWidth += len(lines[s+i])
-		i++
-		if i == 9 {
-			i = 1
+		if int(char) < 32 || int(char) > 126 {
+			fmt.Println("Error : char '", string(char), "' not found!!")
+			// return
+			os.Exit(1)
 		}
+		s := (int(char) - 32) * 9
+		//add the length of the char based on the used style
+		lineWidth = lineWidth + len(lines[s+1])
+		// fmt.Println(lines[s+2], len(lines[s+1]))
+		// fmt.Println("")
+		// fmt.Println("")
 	}
+	fmt.Println(lineWidth)
 	return lineWidth
 }

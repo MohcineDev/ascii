@@ -1,0 +1,36 @@
+ body {
+     display: flex;
+     align-items: center;
+     height: 100vh;
+     justify-content: center;
+ }
+
+ #b400 {
+     background: #f6f6fd;
+     background-image: url("/static/imgs/400.jpg");
+ }
+
+
+ button {
+     width: 40px;
+     height: 40px;
+     margin: 0;
+     padding: 0;
+     background: transparent;
+     border: none;
+     cursor: pointer;
+     transition: transform 0.3s;
+     position: absolute;
+     left: 80px;
+     top: 60px;
+ }
+
+ button:hover {
+     transform: translateX(-6px)
+ }
+
+
+ div p {
+     font-size: 4rem;
+     text-align: center;
+ }

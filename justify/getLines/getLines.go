@@ -92,7 +92,8 @@ func GetLines() ([]string, string) {
 		return []string{}, ""
 	}
 	lines := strings.Split(string(file), "\n")
-	return lines, strings.TrimSpace(removeSpaces(args[inputIndex]))
+
+	return lines, strings.TrimSpace(RemoveSpaces(args[inputIndex]))
 }
 
 func GetLettersIndex(input string, letters string) []int {
@@ -111,7 +112,7 @@ func GetLettersIndex(input string, letters string) []int {
 	if len(indexes) > 0 {
 		for i := 1; i < len(indexes); i++ {
 			indexes[i] += len(letters) - 1
-			fmt.Println("i : ", indexes[i])
+			// fmt.Println("i : ", indexes[i])
 		}
 
 		a := len(indexes)
@@ -126,7 +127,7 @@ func GetLettersIndex(input string, letters string) []int {
 	return indexes
 }
 
-func removeSpaces(oldString string) string {
+func RemoveSpaces(oldString string) string {
 	regRule := regexp.MustCompile(`\s+`)
 	return regRule.ReplaceAllString(oldString, " ")
 }
