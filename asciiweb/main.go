@@ -74,11 +74,16 @@ func main() {
 	// dir := http.Dir("/static/")
 	// http.Handle("/static/", http.FileServer(dir))
 	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer("styles")))
-	fs := http.FileServer(http.Dir("./static/styles"))
-	http.Handle("/static/styles/", http.StripPrefix("/static/styles", fs))
+	// fs := http.FileServer(http.Dir("./static/styles"))
+	// http.Handle("/static/styles/", http.StripPrefix("/static/styles", fs))
 
-	imgs := http.FileServer(http.Dir("./static/imgs"))
-	http.Handle("/static/imgs/", http.StripPrefix("/static/imgs", imgs))
+	// imgs := http.FileServer(http.Dir("./static/imgs"))
+	// http.Handle("/static/imgs/", http.StripPrefix("/static/imgs", imgs))
+
+	//fs :=a
+
+	//server static assets
+	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static/"))))
 
 	http.HandleFunc("/", handleFunc)
 
