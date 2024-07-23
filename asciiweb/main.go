@@ -61,6 +61,8 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 		a.banner = req.FormValue("banner")
 
 		parseAndExecute(fileName, res, a)
+	case "/export":
+		fmt.Println("export")
 	default:
 		fileName := "404.html"
 		res.WriteHeader(http.StatusNotFound)

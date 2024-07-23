@@ -1,5 +1,18 @@
+:root{
+    --dark:#212121;
+}
 body {
-    background: #101020;
+    background: var(--dark);
     color: #fff;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+button{
+    border: none;
+    padding: 8px 1rem;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #fff;
+ 
 }
