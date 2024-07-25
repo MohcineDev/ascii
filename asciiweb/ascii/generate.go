@@ -55,9 +55,5 @@ func Generate(input, banner string) string {
 		fmt.Print(result[i])
 	}
 
-	fmt.Println("len : ", len(result))
-	// fmt.Println(result)
-	fmt.Println(resultS)
-
 	return resultS
 }

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"asciiweb/ascii"
 	"fmt"
 	"html/template"
 	"net/http"
+
+	"asciiweb/ascii"
 )
 
 type asciiS struct {
@@ -12,19 +13,20 @@ type asciiS struct {
 	banner string
 }
 
+var myArt string
+
 func parseAndExecute(name string, res http.ResponseWriter, btata asciiS) {
 	tmpl, err := template.ParseFiles(name)
 	// Title := "Ascii Art Web Project"
 	data := ascii.Generate(btata.input, btata.banner)
-	fmt.Println("btata : ", btata)
+
 	if err != nil {
 		http.Error(res, "Error parsing the file ", http.StatusInternalServerError)
 		return
 	}
 	if name == "ascii-art.html" {
-
 		err = tmpl.Execute(res, data)
-
+		myArt = data
 	} else {
 		err = tmpl.Execute(res, nil)
 	}
@@ -33,13 +35,12 @@ func parseAndExecute(name string, res http.ResponseWriter, btata asciiS) {
 		fmt.Println("Error when executing the template", err)
 	}
 }
-func handleFunc(res http.ResponseWriter, req *http.Request) {
 
+func handleFunc(res http.ResponseWriter, req *http.Request) {
 	switch req.URL.Path {
 	case "/":
 		if req.Method != http.MethodGet {
 			res.WriteHeader(http.StatusBadRequest)
-
 			return
 		}
 		fileName := "index.html"
@@ -61,8 +62,12 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 		a.banner = req.FormValue("banner")
 
 		parseAndExecute(fileName, res, a)
+
 	case "/export":
+
 		fmt.Println("export")
+
+		ExportHandler(res, req)
 	default:
 		fileName := "404.html"
 		res.WriteHeader(http.StatusNotFound)
@@ -82,13 +87,22 @@ func main() {
 	// imgs := http.FileServer(http.Dir("./static/imgs"))
 	// http.Handle("/static/imgs/", http.StripPrefix("/static/imgs", imgs))
 
-	//fs :=a
+	// fs :=a
 
-	//server static assets
+	// server static assets
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static/"))))
 
 	http.HandleFunc("/", handleFunc)
 
 	fmt.Printf("running on %v...", PORT)
 	http.ListenAndServe(":"+PORT, nil)
+}
+
+func ExportHandler(res http.ResponseWriter, req *http.Request) {
+	// res.Header().Set("Content-Length", strconv.Itoa(len(myArt)))
+	// res.Header().Set("Content-Length", strconv.Itoa(len(myArt)))
+	res.Header().Set("Content-Type", "text/plain")
+	res.Header().Set("Content-Disposition", "attachment; filename=ascii.txt")
+	// res.Write([]byte(myArt))
+	fmt.Fprintln(res, myArt)
 }
