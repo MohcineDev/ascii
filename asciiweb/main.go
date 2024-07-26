@@ -15,6 +15,9 @@ type asciiS struct {
 
 var myArt string
 
+var values = map[string]string{}
+var randomNbr int
+
 func parseAndExecute(name string, res http.ResponseWriter, btata asciiS) {
 	tmpl, err := template.ParseFiles(name)
 	// Title := "Ascii Art Web Project"
@@ -65,8 +68,6 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 
 	case "/export":
 
-		fmt.Println("export")
-
 		ExportHandler(res, req)
 	default:
 		fileName := "404.html"
@@ -77,17 +78,6 @@ func handleFunc(res http.ResponseWriter, req *http.Request) {
 
 func main() {
 	const PORT = "8000"
-	// create Dir of type http.Dir
-	// dir := http.Dir("/static/")
-	// http.Handle("/static/", http.FileServer(dir))
-	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer("styles")))
-	// fs := http.FileServer(http.Dir("./static/styles"))
-	// http.Handle("/static/styles/", http.StripPrefix("/static/styles", fs))
-
-	// imgs := http.FileServer(http.Dir("./static/imgs"))
-	// http.Handle("/static/imgs/", http.StripPrefix("/static/imgs", imgs))
-
-	// fs :=a
 
 	// server static assets
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static/"))))
@@ -99,7 +89,7 @@ func main() {
 }
 
 func ExportHandler(res http.ResponseWriter, req *http.Request) {
-	// res.Header().Set("Content-Length", strconv.Itoa(len(myArt)))
+
 	// res.Header().Set("Content-Length", strconv.Itoa(len(myArt)))
 	res.Header().Set("Content-Type", "text/plain")
 	res.Header().Set("Content-Disposition", "attachment; filename=ascii.txt")
